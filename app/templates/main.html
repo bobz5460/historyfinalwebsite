@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Start at Bottom</title>
+  <script>
+    history.scrollRestoration = "manual";
+    window.addEventListener("DOMContentLoaded", () => {
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  </script>
+	<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+	<script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+	<script src="https://unpkg.com/gsap@3/dist/ScrollSmoother.min.js"></script>
+	<script src="https://unpkg.com/gsap@3/dist/TextPlugin.min.js"></script>
+	<script src="https://unpkg.com/split-type"></script>
+</head>
+
+<div class="stars-layer layer1"></div>
+<div class="stars-layer layer2"></div>
+<div class="stars-layer layer3"></div>
+<body>
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+	<img src='static/moon.png' class='moon' data-speed="0.8">
+    <h1 style="z-index: 5; left: 50%; color: white">You've reached the Moon</h1>
+	<div class="timeline" id="timeline">
+
+
+    <div class="timeline-dot" style="bottom: 5%;"></div>
+    <div class="dot-label" style="bottom: 5%;">
+	    <h1>The Start</h1>
+	    <p>The USSR and US did stuff</p>
+    </div>
+
+    <div class="timeline-dot" style="bottom: 20%;"></div>
+    <div class="dot-label" style="bottom: 20%;">Event 2</div>
+
+    <div class="timeline-dot" style="bottom: 40%;"></div>
+    <div class="dot-label" style="bottom: 40%;">Event 3</div>
+
+    <div class="timeline-dot" style="bottom: 90%;"></div>
+    <div class="dot-label" style="bottom: 90%;"></div>
+	<div class="fill" id="fillLine"></div>
+	<img src="static/image.png" id="stickyImage" />
+
+</div>
+<div class="container">
+	    <img src='static/earth.png' class='earth'>
+	    <div class="middle"> <h1 id="welcome" style="font-family: myfont, sans-serif">Welcome to Space!</h1> </div>
+    </div>
+    </div>
+  </div>
+
+</body>
+
+
+<script>
+	gsap.registerPlugin(ScrollTrigger, ScrollSmoother, TextPlugin, SplitType);
+    ScrollSmoother.create({
+  smooth: 1,
+  effects: true,
+  smoothTouch: 0.1,
+});
+    gsap.registerEffect({
+  name: "fade",
+  effect: (targets, config) => {
+    return gsap.to(targets, { duration: config.duration, opacity: 100 });
+  },
+  defaults: { duration: 1 },
+  extendTimeline: true,
+});
+	const welcome = new SplitType("#welcome");
+	gsap.to('.char', {
+		y: 0,
+		stagger: 0.02,
+		delay: 0.5,
+		duration: 0.6,
+		ease: "circ.out"
+	})
+	gsap.to(".layer1", {
+	  backgroundPositionY: "-=2000px",
+	  ease: "none",
+	  scrollTrigger: {
+	    trigger: "body",
+	    start: "top top",
+	    end: "bottom bottom",
+	    scrub: true
+	  }
+	});
+    gsap.to(".layer2", {
+	  backgroundPositionY: "-=1200px",
+	  ease: "none",
+	  scrollTrigger: {
+	    trigger: "body",
+	    start: "top top",
+	    end: "bottom bottom",
+	    scrub: true
+	  }
+	});
+    gsap.to(".layer3", {
+	  backgroundPositionY: "-=800px",
+	  ease: "none",
+	  scrollTrigger: {
+	    trigger: "body",
+	    start: "top top",
+	    end: "bottom bottom",
+	    scrub: true
+	  }
+	});
+	gsap.to(".earth", {
+	  backgroundPositionY: "-=10000x",
+	  ease: "none",
+	  scrollTrigger: {
+	    trigger: "body",
+	    start: "top top",
+	    end: "bottom bottom",
+	    scrub: true
+	  }
+	});
+    // Animation for each dot-label will be handled in setupScrollTrigger
+  setTimeout(() => {
+    const viewportHeight = window.innerHeight;
+    window.scrollTo({
+      top: document.documentElement.scrollTop - viewportHeight,
+      behavior: 'smooth'
+    });
+  }, 2000);
+  document.addEventListener("DOMContentLoaded", () => {
+    let smoother;
+    let timelineHeight;
+    let fillLine = document.getElementById("fillLine");
+    let stickyImage = document.getElementById("stickyImage");
+
+    // Setup initial rocket position
+    stickyImage.style.position = "absolute";
+    // Position is now controlled through the top property
+    // Left and transform are handled in CSS
+
+    // Create a GSAP timeline for the rocket animation
+    const rocketTimeline = gsap.timeline({
+      paused: true,
+      defaults: {
+        ease: "power1.inOut"
+      }
+    });
+
+    // Add effects to the rocket timeline (small wobble/rotation to simulate flight)
+    rocketTimeline.to(stickyImage, {
+      rotation: 5,
+      duration: 0.01
+    }).to(stickyImage, {
+      rotation: -5,
+      duration: 0.01
+    }).to(stickyImage, {
+      rotation: 0,
+      duration: 0.01
+    });
+
+    const setupScrollTrigger = () => {
+      if (!smoother) {
+        setTimeout(setupScrollTrigger, 100);
+        return;
+      }
+
+      const timeline = document.getElementById("timeline");
+      timelineHeight = timeline.offsetHeight;
+
+      // Main ScrollTrigger for the timeline and rocket
+      ScrollTrigger.create({
+        trigger: "#timeline",
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: self => {
+          const scrollPos = smoother.scrollTop();
+          const viewportHeight = window.innerHeight;
+          const timelineTop = timeline.getBoundingClientRect().top + scrollPos;
+          const timelineBottom = timelineTop + timelineHeight;
+
+          // Calculate how far through the timeline we've scrolled (0-1)
+          // For correct upward movement behavior - now using the inverse for top positioning
+          const progress = 1 - (scrollPos - (timelineTop - viewportHeight)) /
+                        ((timelineTop + timelineHeight) - (timelineTop - viewportHeight));
+          const invertedProgress = 1 - progress;
+          rocketTimeline.progress(progress % 1);
+          const fillPercentage = Math.max(0, Math.min(100, progress * 100));
+          fillLine.style.height = fillPercentage + "%";
+          const rocketPositionPx = (invertedProgress * timelineHeight);
+          gsap.to(stickyImage, {
+            top: rocketPositionPx,
+            duration: 0.01,
+            ease: "none",
+            overwrite: "auto"
+          });
+
+
+        if (Math.abs(self.getVelocity()) > 0) {
+            const intensity = Math.min(1, Math.abs(self.getVelocity()) / 1000);
+            gsap.to(stickyImage, {
+              scale: 1 + (intensity * 0.05),
+              duration: 0.2
+            });
+
+            if (self.getVelocity() > 0) {
+              gsap.to(stickyImage, { rotation: 180, duration: 0.3 });
+            } else {
+              gsap.to(stickyImage, { rotation: 0, duration: 0.3 });
+            }
+          }
+        },
+        invalidateOnRefresh: true
+      });
+      document.querySelectorAll('.dot-label').forEach(label => {
+        const dotPosition = label.style.bottom;
+        gsap.fromTo(label, 
+          { 
+            opacity: 0, 
+            x: -50,
+            visibility: 'hidden'
+          },
+          {
+            opacity: 1,
+            x: 0,
+            visibility: 'visible',
+            duration: 0.6,
+            ease: "power1.inOut",
+            scrollTrigger: {
+              trigger: label,
+
+            }
+          }
+        );
+        
+        // Additional animation trigger for when scrolling has already passed the element
+        // This ensures elements are visible when user scrolls back down
+      });
+    };
+
+    const checkSmoother = () => {
+      smoother = ScrollSmoother.get();
+      if (smoother) {
+        setupScrollTrigger();
+      } else {
+        setTimeout(checkSmoother, 100);
+      }
+    };
+
+    checkSmoother();
+  });
+</script>
