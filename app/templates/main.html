@@ -47,6 +47,9 @@
 
     <div class="timeline-dot" style="bottom: 90%;"></div>
     <div class="dot-label" style="bottom: 90%;"></div>
+    <div class="dot-image" style="bottom: 5%;">
+      <img src="static/moon.png" >
+    </div>
     <div class="fill" id="fillLine"></div>
 	  <img src="static/image.png" id="stickyImage" />
 
@@ -159,6 +162,7 @@
       duration: 0.01
     });
 
+    // --- Revamped timeline fill logic ---
     const setupScrollTrigger = () => {
       if (!smoother) {
         setTimeout(setupScrollTrigger, 100);
@@ -176,22 +180,27 @@
         start: "top bottom", 
         end: "bottom top",
         onUpdate: self => {
-          const viewportHeight = window.innerHeight;
+          // Calculate progress so that at the bottom (page load), fill is 100%, and as you scroll up, fill shrinks to 0%
           const timelineRect = timeline.getBoundingClientRect();
-          const timelineHeight = timelineRect.height;
+          const viewportHeight = window.innerHeight;
           const timelineTop = timelineRect.top;
           const timelineBottom = timelineRect.bottom;
+          const timelineHeight = timelineRect.height;
+
+          // Progress: 1 at bottom (timeline bottom at viewport bottom), 0 at top (timeline top at viewport top)
           let progress;
-          
           if (timelineBottom <= 0) {
             progress = 0;
           } else if (timelineTop >= viewportHeight) {
             progress = 1;
           } else {
-            progress = 1 - ((viewportHeight - timelineTop) / (viewportHeight + timelineHeight));
+            // Correct progress: 1 at bottom, 0 at top
+            progress = (timelineBottom - viewportHeight) / (timelineHeight - viewportHeight);
+            progress = Math.max(0, Math.min(1, progress));
           }
-          progress = Math.max(0, Math.min(1, progress));
+          // Set fill height (starts at 100%, shrinks to 0%)
           fillLine.style.height = (progress * 100) + "%";
+          // Move rocket accordingly (optional, keep as before)
           const rocketBottom = progress * timelineHeight;
           gsap.to(stickyImage, {
             bottom: rocketBottom + "px",
@@ -240,7 +249,30 @@
           }
         );
       });
-      
+      document.querySelectorAll('.dot-image').forEach(label => {
+        const dotPosition = parseFloat(label.style.bottom) || 0;
+        gsap.fromTo(label, 
+          { 
+            opacity: 0, 
+            x: -50,
+            visibility: 'hidden'
+          },
+          {
+            opacity: 1,
+            x: 0,
+            visibility: 'visible',
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: label.previousElementSibling, // Use the timeline dot as trigger instead
+              start: "center bottom",
+              end: "center top-=150",
+              toggleActions: "restart reverse restart reverse",
+              markers: false
+            }
+          }
+        );
+      });
       // Initialize bottom labels to be visible on page load since we start at the bottom
       setTimeout(() => {
         const viewportHeight = window.innerHeight;
