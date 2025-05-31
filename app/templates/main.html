@@ -14,12 +14,55 @@
 	<script src="https://unpkg.com/gsap@3/dist/ScrollSmoother.min.js"></script>
 	<script src="https://unpkg.com/gsap@3/dist/TextPlugin.min.js"></script>
 	<script src="https://unpkg.com/split-type"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 
 <div class="stars-layer layer1"></div>
 <div class="stars-layer layer2"></div>
 <div class="stars-layer layer3"></div>
 <body>
+  <style>
+    .timeline {
+      position: relative;
+      margin: 0 auto;
+      padding: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, rgba(50, 70, 150, 0.6), rgba(101, 125, 255, 0.9));
+      height: 10000px;
+      box-shadow: 0 0 15px rgba(101, 125, 255, 0.4);
+    }
+
+    .timeline .fill {
+      position: relative;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to bottom, #cfd9ff, #657dff);
+      height: 0;
+      transition: height 0.01s linear;
+      box-shadow: 0 0 10px rgba(101, 125, 255, 0.8);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      background-color: #657dff;
+      border: 4px solid rgba(13, 23, 58, 0.8);
+      border-radius: 50%;
+      bottom: -50%;
+      box-shadow: 0 0 10px 2px rgba(101, 125, 255, 0.7);
+      z-index: 5;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-dot:hover {
+      transform: translateX(-50%) scale(1.2);
+      box-shadow: 0 0 15px 4px rgba(101, 125, 255, 0.9);
+    }
+  </style>
   <div id="smooth-wrapper">
     <div id="smooth-content">
 
@@ -34,7 +77,7 @@
     <div class="timeline-dot" style="bottom: 5.5%;"></div>
     <div class="dot-label" style="bottom: 5%; opacity:0; visibility:hidden; transform:translateY(-50px);">
 	    <h1>The Start</h1>
-	    <p>1955 July 29. The United States announces their intention to launch an artificial satellite, and the Soviet Union soon followed suit.</p>
+	    <p>At the end of World War II, tensions between the United States and the Soviet Union caused the start of the Cold War. Both superpowers began competing in everything, including science and technology. Rocketry became a key focus as both nations funded programs to advance missile and space programs. In July 1955, the U.S. announced plans to launch an artificial satellite during the International Geophysical Year. The USSR responded four days later with a similar announcement, marking the beginning of the Space Race.</p>
       </p>
     </div>
 
@@ -46,15 +89,15 @@
 
     <div class="timeline-dot" style="bottom: 90%;"></div>
     <div class="dot-label" style="bottom: 90%; opacity:0; visibility:hidden; transform:translateY(50%);"></div>
-    
+
     <div class="fill" id="fillLine"></div>
 	  <img src="static/image.png" id="stickyImage" />
 
 </div>
-	
+
 <div class="container">
 	    <img src='static/earth.png' class='earth'>
-	    <div class="middle"> <h1 id="welcome" style="font-family: myfont, sans-serif">Welcome to Space!</h1> </div>
+	    <div class="middle"> <h1 id="welcome">Welcome to Space!</h1> </div>
     </div>
     </div>
   </div>
@@ -222,11 +265,7 @@
       });
       
       document.querySelectorAll('.dot-label').forEach(label => {
-        gsap.to(label, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.inOut",
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: label,
             start: "center bottom",
@@ -235,6 +274,26 @@
             markers: false
           }
         });
+
+        tl.set(label, {autoAlpha: 0, y: 20})
+          .to(label, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out"
+          })
+          .from(label.querySelector('h1'), {
+            opacity: 0,
+            y: 10,
+            duration: 0.5,
+            ease: "back.out(1.4)"
+          }, "-=0.4")
+          .from(label.querySelector('p'), {
+            opacity: 0,
+            y: 10,
+            duration: 0.5,
+            ease: "power2.out"
+          }, "-=0.3");
       });
       document.querySelectorAll('.dot-image').forEach(label => {
         gsap.to(label, {
