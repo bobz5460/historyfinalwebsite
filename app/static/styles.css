@@ -56,7 +56,7 @@ body {
 }
 
 .earth {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -130,23 +130,26 @@ body {
     background-color: #fff;
     border: 4px solid #333;
     border-radius: 50%;
+    bottom: -50%
 }
 
 .dot-label {
     position: absolute;
-    left: 30px;
-    transform: translateY(50%);
+    left: 80px;
+    transform: translateY(-50px);
     background-color: #fff;
     padding: 5px 10px;
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     opacity: 0; /* Start invisible */
     visibility: hidden; /* Hide initially */
+    width: 20vw;
 }
 
 .dot-image {
     position: absolute;
     right: 100px;
-    transform: translateY(50%);
+    transform: translateY(-50px);
+    opacity: 0;
     visibility: hidden;
 }

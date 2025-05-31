@@ -28,28 +28,25 @@
     <h1 style="z-index: 5; left: 50%; color: white">You've reached the Moon</h1>
 	<div class="timeline" id="timeline">
 
-
-    <div class="timeline-dot" style="bottom: 5%;"></div>
-    <div class="dot-label" style="bottom: 5%;">
+    <div class="dot-image" style="bottom: 5.7%; opacity:0; visibility:hidden; transform:translateY(-50px);">
+      <img src="static/moon.png" >
+    </div>
+    <div class="timeline-dot" style="bottom: 5.5%;"></div>
+    <div class="dot-label" style="bottom: 5%; opacity:0; visibility:hidden; transform:translateY(-50px);">
 	    <h1>The Start</h1>
-	    <p>The USSR and US did stuff reg erg erg er
-         er gerg ergeijrgo erigj eorij goeijrge
-         rpigjerpoigjeporigjeporgjepjrjigergj
-         eprij gejpergj
+	    <p>1955 July 29. The United States announces their intention to launch an artificial satellite, and the Soviet Union soon followed suit.</p>
       </p>
     </div>
 
     <div class="timeline-dot" style="bottom: 20%;"></div>
-    <div class="dot-label" style="bottom: 20%;">Event 2</div>
+    <div class="dot-label" style="bottom: 20%; opacity:0; visibility:hidden; transform:translateY(50%);">Event 2</div>
 
     <div class="timeline-dot" style="bottom: 50%;"></div>
-    <div class="dot-label" style="bottom: 50%;">Event 3</div>
+    <div class="dot-label" style="bottom: 50%; opacity:0; visibility:hidden; transform:translateY(50%);">Event 3</div>
 
     <div class="timeline-dot" style="bottom: 90%;"></div>
-    <div class="dot-label" style="bottom: 90%;"></div>
-    <div class="dot-image" style="bottom: 5%;">
-      <img src="static/moon.png" >
-    </div>
+    <div class="dot-label" style="bottom: 90%; opacity:0; visibility:hidden; transform:translateY(50%);"></div>
+    
     <div class="fill" id="fillLine"></div>
 	  <img src="static/image.png" id="stickyImage" />
 
@@ -128,14 +125,14 @@
 	    scrub: true
 	  }
 	});
-  setTimeout(() => {
-    const viewportHeight = window.innerHeight;
-    window.scrollTo({
-      top: document.documentElement.scrollTop - viewportHeight,
-      behavior: 'smooth'
-    });
-  }, 2000);
+
   document.addEventListener("DOMContentLoaded", () => {
+    // Ensure all dot-labels and dot-images are hidden before animation
+    gsap.set(document.querySelectorAll('.dot-label, .dot-image'), {
+      autoAlpha: 0,
+      y: -50
+    });
+
     let smoother;
     let timelineHeight;
     let fillLine = document.getElementById("fillLine");
@@ -162,7 +159,6 @@
       duration: 0.01
     });
 
-    // --- Revamped timeline fill logic ---
     const setupScrollTrigger = () => {
       if (!smoother) {
         setTimeout(setupScrollTrigger, 100);
@@ -180,14 +176,14 @@
         start: "top bottom", 
         end: "bottom top",
         onUpdate: self => {
-          // Calculate progress so that at the bottom (page load), fill is 100%, and as you scroll up, fill shrinks to 0%
+          
           const timelineRect = timeline.getBoundingClientRect();
           const viewportHeight = window.innerHeight;
           const timelineTop = timelineRect.top;
           const timelineBottom = timelineRect.bottom;
           const timelineHeight = timelineRect.height;
 
-          // Progress: 1 at bottom (timeline bottom at viewport bottom), 0 at top (timeline top at viewport top)
+          
           let progress;
           if (timelineBottom <= 0) {
             progress = 0;
@@ -226,52 +222,34 @@
       });
       
       document.querySelectorAll('.dot-label').forEach(label => {
-        const dotPosition = parseFloat(label.style.bottom) || 0;
-        gsap.fromTo(label, 
-          { 
-            opacity: 0, 
-            x: -50,
-            visibility: 'hidden'
-          },
-          {
-            opacity: 1,
-            x: 0,
-            visibility: 'visible',
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: label.previousElementSibling, // Use the timeline dot as trigger instead
-              start: "center bottom",
-              end: "center top-=150",
-              toggleActions: "restart reverse restart reverse",
-              markers: false
-            }
+        gsap.to(label, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.inOut",
+          scrollTrigger: {
+            trigger: label,
+            start: "center bottom",
+            end: "center top-=150",
+            toggleActions: "play reverse play reverse",
+            markers: false
           }
-        );
+        });
       });
       document.querySelectorAll('.dot-image').forEach(label => {
-        const dotPosition = parseFloat(label.style.bottom) || 0;
-        gsap.fromTo(label, 
-          { 
-            opacity: 0, 
-            x: -50,
-            visibility: 'hidden'
-          },
-          {
-            opacity: 1,
-            x: 0,
-            visibility: 'visible',
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: label.previousElementSibling, // Use the timeline dot as trigger instead
-              start: "center bottom",
-              end: "center top-=150",
-              toggleActions: "restart reverse restart reverse",
-              markers: false
-            }
+        gsap.to(label, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.inOut",
+          scrollTrigger: {
+            trigger: label,
+            start: "center bottom",
+            end: "center top-=150",
+            toggleActions: "play reverse play reverse",
+            markers: false
           }
-        );
+        });
       });
       // Initialize bottom labels to be visible on page load since we start at the bottom
       setTimeout(() => {
@@ -279,7 +257,7 @@
         document.querySelectorAll('.dot-label').forEach(label => {
           const bottom = parseFloat(label.style.bottom) || 0;
           if (bottom <= 20) {
-            gsap.set(label, {opacity: 1, x: 0, visibility: 'visible'});
+            gsap.set(label, {opacity: 1, y: 0, visibility: 'visible'});
           }
         });
       }, 500);
@@ -293,7 +271,14 @@
         setTimeout(checkSmoother, 100);
       }
     };
-
+        setTimeout(() => {
+    const viewportHeight = window.innerHeight;
+    window.scrollTo({
+      top: document.documentElement.scrollTop - viewportHeight,
+      behavior: 'smooth'
+    });
+  }, 2000);
     checkSmoother();
   });
+
 </script>
