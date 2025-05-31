@@ -15,35 +15,40 @@ body {
     background-color: #000725;
     overflow-x: hidden;
 }
-.stars-layer {
+.stars-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     margin: 0;
     padding: 0;
-    background-repeat: repeat;
-    background-size: auto;
-    background-position: 0 0;
     pointer-events: none;
-}
-
-.layer1 {
-    background-image: url('6pxstars.png');
     z-index: -3;
+    overflow: visible;
 }
 
-.layer2 {
-    background-image: url('4pxstars.png');
+.stars-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#starsLayer1 {
+    z-index: -3;
+    opacity: 1;
+}
+
+#starsLayer2 {
     z-index: -2;
-    opacity: 50%;
+    opacity: 0.7;
 }
 
-.layer3 {
-    background-image: url('2pxstars.png');
+#starsLayer3 {
     z-index: -1;
-    opacity: 25%;
+    opacity: 0.4;
 }
 
 .container {
@@ -156,15 +161,333 @@ body {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(101, 125, 255, 0.3);
     border-color: rgba(101, 125, 255, 0.6);
 }
+/* Moon Landing Section Styles */
+.moon-landing-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #000310;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+}
+
+
+.moon-content {
+  position: relative;
+  width: 40%;
+  color: white;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.moon-content-right {
+    position: relative;
+    width: 20%;
+  color: white;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  background-color: rgba(8, 15, 40, 0.8);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(101, 125, 255, 0.2);
+  border: 1px solid rgba(101, 125, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+    right:20%;
+    font-size: 14pt;
+  }
+.moon-content-rocket {
+    margin: auto;
+    width: 50%;
+
+}
+  /* Add subtle accent decoration to the panel */
+  .moon-content-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, rgba(101, 125, 255, 0.4), rgba(180, 200, 255, 0.8), rgba(101, 125, 255, 0.4));
+  }
+
+  /* Add subtle glow on hover */
+  .moon-content-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(101, 125, 255, 0.05), transparent);
+  transition: transform 1.5s ease;
+  }
+
+  .moon-content-right:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(101, 125, 255, 0.3);
+  border-color: rgba(101, 125, 255, 0.5);
+}
+
+.moon-content-right:hover::after {
+  transform: translateX(200%);
+}
+
+/* Add subtle pulse to the title on hover */
+.moon-content-right:hover .moon-title-right h1 {
+  animation: titlePulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes titlePulse {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(101, 125, 255, 0.5);
+  }
+}
+
+.moon-title h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.moon-title h2 {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  color: #b7c1e6;
+  font-weight: 400;
+}
+
+.moon-quote {
+  margin: 2rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(101, 125, 255, 0.6);
+}
+
+.moon-quote p {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #e0e6ff;
+  line-height: 1.5;
+}
+
+.quote-author {
+  text-align: left;
+  margin-top: 0.5rem;
+  font-size: 1rem !important;
+  color: #b7c1e6 !important;
+}
+
+.moon-title-right h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(101, 125, 255, 0.4);
+  padding-bottom: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.moon-text-right p {
+  font-size: 1.1rem;
+  color: #e0e6ff;
+  line-height: 1.7;
+  margin-bottom: 1.4rem;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.2px;
+}
+
+/* Add first-letter emphasis */
+.moon-text-right p:first-of-type::first-letter {
+  font-size: 1.6em;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(101, 125, 255, 0.6);
+  padding-right: 1px;
+}
+
+/* Add subtle emphasis to key facts */
+.moon-text-right strong {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(101, 125, 255, 0.4);
+  }
+}
+
+@keyframes earthGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(101, 125, 255, 0.4);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 30px rgba(101, 125, 255, 0.7), 0 0 50px rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .moon-content, .moon-content-right {
+    width: 40%;
+  }
+
+  .moon-title h1, .moon-title-right h1 {
+    font-size: 2.8rem;
+  }
+
+  .moon-text-right p, .moon-quote p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .moon-content {
+    left: 3%;
+    width: 42%;
+  }
+
+  .moon-content-right {
+    right: 3%;
+    width: 42%;
+  }
+
+  .moon-title h1, .moon-title-right h1 {
+    font-size: 2.2rem;
+  }
+
+  .moon-title h2 {
+    font-size: 1.3rem;
+  }
+
+  .moon-text-right p, .moon-quote p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 768px) {
+  .moon-content, .moon-content-right {
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  .moon-landing-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 50px 20px;
+    flex-direction: column;
+  }
+
+  .moon-title h1, .moon-title-right h1 {
+    font-size: 2.2rem;
+  }
+
+  .moon-text-right p, .moon-quote p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .moon-content, .moon-content-right {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .moon-title h1, .moon-title-right h1 {
+    font-size: 1.8rem;
+  }
+
+  .moon-title h2 {
+    font-size: 1.1rem;
+  }
+
+  .moon-text-right p, .moon-quote p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .event-title-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .event-date {
+    margin-top: 5px;
+    font-size: 0.8rem;
+  }
+
+  .dot-label {
+    width: 70vw;
+    max-width: 350px;
+  }
+}
+
+/* Moon glow effect to replace the moon image */
+.moon-landing-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 60% 30%, rgba(180, 180, 210, 0.1) 0%, rgba(50, 50, 100, 0.05) 50%, transparent 70%);
+  z-index: 3;
+  pointer-events: none;
+}
+.event-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(101, 125, 255, 0.3);
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
+}
 
 .dot-label h1 {
     color: #cfd9ff;
     font-size: 1.6rem;
     margin-top: 0;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0;
     font-weight: 600;
-    border-bottom: 1px solid rgba(101, 125, 255, 0.3);
-    padding-bottom: 0.6rem;
+    padding-right: 10px;
+}
+
+.event-date {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgba(183, 193, 230, 0.8);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.event-title-container:hover .event-date {
+    color: rgba(207, 217, 255, 0.9);
+    text-shadow: 0 0 10px rgba(101, 125, 255, 0.4);
 }
 
 .dot-label p {

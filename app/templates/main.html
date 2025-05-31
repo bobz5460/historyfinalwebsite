@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Start at Bottom</title>
+  <title>History Final</title>
   <script>
     history.scrollRestoration = "manual";
     window.addEventListener("DOMContentLoaded", () => {
@@ -17,9 +17,11 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 
-<div class="stars-layer layer1"></div>
-<div class="stars-layer layer2"></div>
-<div class="stars-layer layer3"></div>
+<div class="stars-container">
+  <canvas id="starsLayer1" class="stars-canvas"></canvas>
+  <canvas id="starsLayer2" class="stars-canvas"></canvas>
+  <canvas id="starsLayer3" class="stars-canvas"></canvas>
+</div>
 <body>
   <style>
     .timeline {
@@ -67,31 +69,62 @@
     <div id="smooth-content">
 
 	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-	<img src='static/moon.png' class='moon' data-speed="0.8">
-    <h1 style="z-index: 5; left: 50%; color: white">You've reached the Moon</h1>
+
+	<div class="moon-landing-section">
+	  <div class="moon-content">
+	    <div class="moon-title">
+	      <h2>The End</h2>
+		    <h1>Apollo 11</h1>
+	      <h2>July 20, 1969</h2>
+	    </div>
+	    <div class="moon-quote">
+	      <p>"That's one small step for man, one giant leap for mankind."</p>
+	      <p class="quote-author">- Neil Armstrong</p>
+	    </div>
+	  </div>
+		<div class="moon-content-rocket">
+			<img src='static/saturnv.png'>
+		</div>
+	<div class="moon-content-right">
+		<p>The Space Race reached its climax when Neil Armstrong and Buzz Aldrin landed on the Moon aboard Apollo 11’s Lunar Module, Eagle, while Michael Collins orbited above. Armstrong’s words—"That's one small step for [a] man, one giant leap for mankind"—became instantly iconic. The mission fulfilled Kennedy’s goal, demonstrated American technological superiority, and won the Space Race for the United States.
+</p>
+	</div>
+	</div>
+
 	<div class="timeline" id="timeline">
 
     <div class="dot-image" style="bottom: 5.7%; opacity:0; visibility:hidden; transform:translateY(-50px);">
-      <img src="static/moon.png" >
     </div>
     <div class="timeline-dot" style="bottom: 5.5%;"></div>
     <div class="dot-label" style="bottom: 5%; opacity:0; visibility:hidden; transform:translateY(-50px);">
-	    <h1>The Start</h1>
+    	    <div class="event-title-container">
+    	      <h1>The Start</h1>
+    	      <span class="event-date">1955-1957</span>
+    	    </div>
 	    <p>At the end of World War II, tensions between the United States and the Soviet Union caused the start of the Cold War. Both superpowers began competing in everything, including science and technology. Rocketry became a key focus as both nations funded programs to advance missile and space programs. In July 1955, the U.S. announced plans to launch an artificial satellite during the International Geophysical Year. The USSR responded four days later with a similar announcement, marking the beginning of the Space Race.</p>
       </p>
     </div>
 
     <div class="timeline-dot" style="bottom: 20%;"></div>
-    <div class="dot-label" style="bottom: 20%; opacity:0; visibility:hidden; transform:translateY(50%);">Event 2</div>
+    <div class="dot-label" style="bottom: 20%; opacity:0; visibility:hidden; transform:translateY(50%);">
+      <div class="event-title-container">
+        <h1>Sputnik Launch</h1>
+        <span class="event-date">October 4, 1957</span>
+      </div>
+      <p>The Soviet Union launched Sputnik 1, the world's first artificial satellite, shocking the United States and starting the Space Race in earnest. The 184-pound, basketball-sized satellite orbited Earth for three weeks before its batteries died, and it burned up in the atmosphere in January 1958.</p>
+    </div>
 
     <div class="timeline-dot" style="bottom: 50%;"></div>
-    <div class="dot-label" style="bottom: 50%; opacity:0; visibility:hidden; transform:translateY(50%);">Event 3</div>
+    <div class="dot-label" style="bottom: 50%; opacity:0; visibility:hidden; transform:translateY(50%);">
+      <div class="event-title-container">
+        <h1>NASA Established</h1>
+        <span class="event-date">July 29, 1958</span>
+      </div>
+      <p>In response to Sputnik, the United States established the National Aeronautics and Space Administration (NASA) to coordinate and conduct space exploration activities. President Eisenhower signed the National Aeronautics and Space Act, officially establishing NASA as a civilian agency with a distinctly peaceful and scientific mission.</p>
+    </div>
 
-    <div class="timeline-dot" style="bottom: 90%;"></div>
-    <div class="dot-label" style="bottom: 90%; opacity:0; visibility:hidden; transform:translateY(50%);"></div>
 
     <div class="fill" id="fillLine"></div>
-	  <img src="static/image.png" id="stickyImage" />
 
 </div>
 
@@ -106,6 +139,230 @@
 
 
 <script>
+  // Stars initialization
+  document.addEventListener('DOMContentLoaded', function() {
+    // Wait a moment for document to be fully loaded and measured
+    setTimeout(() => {
+      // Initialize star layers with different properties and scroll speeds
+      // Parameters: (id, count, maxSize, speedFactor, twinkleFactor, color, baseScrollSpeed, scrollRandom)
+      initStars('starsLayer1', 70, 2.5, 0.1, 1, '#ffffff', 0.2, 0.5); // Large, fast-moving distant stars
+      initStars('starsLayer2', 100, 1.5, 0.03, 0.08, '#b7c1e6', 0.1, 0.3); // Medium stars
+      initStars('starsLayer3', 150, 1, 0.02, 0.05, '#657dff', 0.1, 0.1); // Small, slower nearby stars
+
+      // ScrollSmoother handles updating stars now
+      // window.addEventListener('scroll', updateStarsVisibility);
+
+      // Start animation loop
+      animateStars();
+
+      // Initial update
+      updateStarsVisibility();
+    }, 100);
+  });
+
+  // Update which stars are in the visible area
+  function updateStarsVisibility() {
+    // Get scroll position from ScrollSmoother if available
+    let scrollY;
+    const smoother = ScrollSmoother.get();
+
+    if (smoother) {
+      // Use ScrollSmoother's scroll position
+      scrollY = smoother.scrollTop();
+    } else {
+      // Fallback to standard scroll position
+      scrollY = window.scrollY || window.pageYOffset;
+    }
+
+    const viewportHeight = window.innerHeight;
+
+    Object.keys(starLayers).forEach(layerId => {
+      const layer = starLayers[layerId];
+      const { stars } = layer;
+
+      stars.forEach(star => {
+        // Use individual star's scroll speed
+        const relY = star.y - (scrollY * star.scrollSpeed);
+        star.visible = relY >= -200 && relY <= viewportHeight + 200; // Expanded visible range
+      });
+    });
+  }
+
+  // Store stars data
+  const starLayers = {};
+
+  // Initialize stars for a canvas layer
+  function initStars(canvasId, count, maxSize, speedFactor, twinkleFactor, color, baseScrollSpeed, scrollRandom) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+
+    // Get document height for stars distribution
+    const docHeight = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight,
+      10000 // Fallback minimum height (timeline height)
+    );
+
+    // Set canvas to cover viewport
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Create stars distributed across the full document height
+    const stars = [];
+    const starDensity = count / (window.innerHeight);
+    const totalStars = Math.ceil(starDensity * docHeight);
+
+    for (let i = 0; i < totalStars; i++) {
+      // Calculate star size with more variation
+      const starSize = Math.random() * maxSize + 0.5;
+      // Adjust parallax speed based on star size for realistic depth effect
+      // Smaller stars should move slower (appear closer), larger stars move faster (appear farther)
+      const sizeRatio = starSize / (maxSize + 0.5); // 0-1 based on size
+      const individualScrollSpeed = baseScrollSpeed + (scrollRandom * Math.random() * sizeRatio);
+
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * docHeight, // Distribute across full document height
+        originalY: 0, // Will store original position for parallax
+        size: starSize,
+        speed: Math.random() * speedFactor + 0.1,
+        twinkle: Math.random() * twinkleFactor,
+        brightness: Math.random() * 0.3 + 0.7, // Start brighter with less variation
+        brightnessDelta: Math.random() * 0.002 + 0.0005, // Much slower brightness changes
+        brightDirection: Math.random() > 0.5 ? 1 : -1,
+        lastUpdate: Math.random() * 100, // Randomize update timing
+        updateFrequency: Math.random() * 10 + 30, // Only update occasionally
+        scrollSpeed: individualScrollSpeed, // Individual parallax speed for each star
+        visible: false // Track visibility
+      });
+    }
+
+    starLayers[canvasId] = {
+      canvas,
+      ctx,
+      stars,
+      scrollOffset: 0,
+      color,
+      baseScrollSpeed,
+      scrollRandom
+    };
+  }
+
+  // Animate all star layers
+  function animateStars() {
+    // Get scroll position from ScrollSmoother if available
+    let scrollY;
+    const smoother = ScrollSmoother.get();
+
+    if (smoother) {
+      // Use ScrollSmoother's scroll position
+      scrollY = smoother.scrollTop();
+    } else {
+      // Fallback to standard scroll position
+      scrollY = window.scrollY || window.pageYOffset;
+    }
+
+    Object.keys(starLayers).forEach(layerId => {
+      const layer = starLayers[layerId];
+      const { canvas, ctx, stars, color } = layer;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw each star
+      stars.forEach(star => {
+        // Determine if star is in visible range using individual scroll speeds
+        const relativeY = star.y - (scrollY * star.scrollSpeed);
+        const isVisible = relativeY >= -50 && relativeY <= canvas.height + 50;
+
+        // Only process visible stars
+        if (isVisible) {
+          // Update counter for this star
+          star.lastUpdate++;
+
+          // Only update brightness occasionally for slower twinkling
+          if (star.lastUpdate > star.updateFrequency) {
+            // Twinkle effect
+            star.brightness += star.brightnessDelta * star.brightDirection;
+
+            // Constrain brightness with narrower range for subtler effect
+            if (star.brightness > 0.95) {
+              star.brightness = 0.95;
+              star.brightDirection = -1;
+              // Randomize next update frequency
+              star.updateFrequency = Math.random() * 10 + 30;
+            } else if (star.brightness < 0.75) {
+              star.brightness = 0.75;
+              star.brightDirection = 1;
+              // Randomize next update frequency
+              star.updateFrequency = Math.random() * 10 + 30;
+            }
+
+            // Reset counter
+            star.lastUpdate = 0;
+          }
+
+          // Calculate position relative to scroll
+          const drawY = relativeY;
+
+          // Draw star with slight size variation based on scroll for extra depth effect
+          // Stars that move faster should appear to vary size slightly as you scroll
+          const scrollEffect = 1 + (Math.sin(scrollY * 0.001 * star.scrollSpeed) * 0.1 * star.scrollSpeed);
+          const currentSize = star.size * scrollEffect;
+
+          ctx.beginPath();
+          ctx.fillStyle = color;
+          ctx.globalAlpha = star.brightness;
+
+          // Create a slight glow effect
+          const glow = ctx.createRadialGradient(
+            star.x, drawY, 0,
+            star.x, drawY, currentSize * 2
+          );
+
+          glow.addColorStop(0, color);
+          glow.addColorStop(1, 'transparent');
+
+          ctx.fillStyle = color;
+          ctx.arc(star.x, drawY, currentSize, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Some stars have a subtle glow
+          if (currentSize > 1.5) {
+            ctx.globalAlpha = star.brightness * 0.3;
+            ctx.beginPath();
+            ctx.arc(star.x, drawY, currentSize * 2, 0, Math.PI * 2);
+            ctx.fillStyle = glow;
+            ctx.fill();
+          }
+
+          // Only move stars occasionally and very slightly for more stable background
+          // Stars with higher parallax speeds (further away) should move more to enhance depth effect
+          const moveProbability = 0.01 * (1 + star.scrollSpeed);
+          if (Math.random() < moveProbability) {
+            // Higher parallax stars move more
+            const moveFactor = 0.2 * (0.5 + star.scrollSpeed);
+            star.x += (Math.random() - 0.5) * star.twinkle * moveFactor;
+
+            // Keep stars within horizontal bounds
+            if (star.x < 0) star.x = canvas.width;
+            if (star.x > canvas.width) star.x = 0;
+          }
+        }
+      });
+    });
+
+    requestAnimationFrame(animateStars);
+  }
+
 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother, TextPlugin, SplitType);
     ScrollSmoother.create({
   smooth: 1,
@@ -128,36 +385,7 @@
 		duration: 0.6,
 		ease: "circ.out"
 	})
-	gsap.to(".layer1", {
-	  backgroundPositionY: "-=2000px",
-	  ease: "none",
-	  scrollTrigger: {
-	    trigger: "body",
-	    start: "top top",
-	    end: "bottom bottom",
-	    scrub: true
-	  }
-	});
-    gsap.to(".layer2", {
-	  backgroundPositionY: "-=1200px",
-	  ease: "none",
-	  scrollTrigger: {
-	    trigger: "body",
-	    start: "top top",
-	    end: "bottom bottom",
-	    scrub: true
-	  }
-	});
-    gsap.to(".layer3", {
-	  backgroundPositionY: "-=800px",
-	  ease: "none",
-	  scrollTrigger: {
-	    trigger: "body",
-	    start: "top top",
-	    end: "bottom bottom",
-	    scrub: true
-	  }
-	});
+	  // Parallax is now handled directly in the star animation loop
 	gsap.to(".earth", {
 	  backgroundPositionY: "-=10000x",
 	  ease: "none",
@@ -165,6 +393,18 @@
 	    trigger: "body",
 	    start: "top top",
 	    end: "bottom bottom",
+	    scrub: true
+	  }
+	});
+
+	// Add subtle parallax to the right content area
+	gsap.to(".moon-content-right", {
+	  y: "-15%",
+	  ease: "none",
+	  scrollTrigger: {
+	    trigger: ".moon-landing-section",
+	    start: "top bottom",
+	    end: "bottom top",
 	    scrub: true
 	  }
 	});
@@ -179,28 +419,8 @@
     let smoother;
     let timelineHeight;
     let fillLine = document.getElementById("fillLine");
-    let stickyImage = document.getElementById("stickyImage");
 
-    stickyImage.style.position = "absolute";
-    stickyImage.style.bottom = "0"; 
-    stickyImage.style.transform = "translateY(50%)"; 
-    
-    const rocketTimeline = gsap.timeline({
-      paused: true,
-      defaults: {
-        ease: "power1.inOut"
-      }
-    });
-    rocketTimeline.to(stickyImage, {
-      rotation: 5,
-      duration: 0.01
-    }).to(stickyImage, {
-      rotation: -5,
-      duration: 0.01
-    }).to(stickyImage, {
-      rotation: 0,
-      duration: 0.01
-    });
+    // Rocket timeline removed
 
     const setupScrollTrigger = () => {
       if (!smoother) {
@@ -208,25 +428,32 @@
         return;
       }
 
+      // Connect ScrollSmoother to star updates
+      smoother.effects('.stars-container', {speed: 1, lag: 0.5});
+
+      // Update stars when ScrollSmoother updates
+      ScrollTrigger.addEventListener('refresh', updateStarsVisibility);
+      smoother.effects(false, {onUpdate: updateStarsVisibility});
+
       const timeline = document.getElementById("timeline");
       timelineHeight = timeline.offsetHeight;
       fillLine.style.position = "absolute";
       fillLine.style.bottom = "0";
-      fillLine.style.height = "100%"; 
+      fillLine.style.height = "100%";
 
       ScrollTrigger.create({
         trigger: "#timeline",
-        start: "top bottom", 
+        start: "top bottom",
         end: "bottom top",
         onUpdate: self => {
-          
+
           const timelineRect = timeline.getBoundingClientRect();
           const viewportHeight = window.innerHeight;
           const timelineTop = timelineRect.top;
           const timelineBottom = timelineRect.bottom;
           const timelineHeight = timelineRect.height;
 
-          
+
           let progress;
           if (timelineBottom <= 0) {
             progress = 0;
@@ -239,31 +466,10 @@
           }
           // Set fill height (starts at 100%, shrinks to 0%)
           fillLine.style.height = (progress * 100) + "%";
-          // Move rocket accordingly (optional, keep as before)
-          const rocketBottom = progress * timelineHeight;
-          gsap.to(stickyImage, {
-            bottom: rocketBottom + "px",
-            duration: 0.1,
-            overwrite: "auto"
-          });
-
-          if (Math.abs(self.getVelocity()) > 0) {
-            const intensity = Math.min(1, Math.abs(self.getVelocity()) / 1000);
-            gsap.to(stickyImage, {
-              scale: 1 + (intensity * 0.05),
-              duration: 0.2
-            });
-
-            if (self.getVelocity() > 0) { 
-              gsap.to(stickyImage, { rotation: 180, duration: 0.3 });
-            } else {
-              gsap.to(stickyImage, { rotation: 0, duration: 0.3 });
-            }
-          }
         },
         invalidateOnRefresh: true
       });
-      
+
       document.querySelectorAll('.dot-label').forEach(label => {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -282,18 +488,24 @@
             duration: 0.8,
             ease: "power3.out"
           })
-          .from(label.querySelector('h1'), {
+          .from(label.querySelector('.event-title-container h1'), {
             opacity: 0,
             y: 10,
             duration: 0.5,
             ease: "back.out(1.4)"
           }, "-=0.4")
+          .from(label.querySelector('.event-date'), {
+            opacity: 0,
+            x: -10,
+            duration: 0.4,
+            ease: "power2.out"
+          }, "-=0.3")
           .from(label.querySelector('p'), {
             opacity: 0,
             y: 10,
             duration: 0.5,
             ease: "power2.out"
-          }, "-=0.3");
+          }, "-=0.2");
       });
       document.querySelectorAll('.dot-image').forEach(label => {
         gsap.to(label, {
