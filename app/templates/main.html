@@ -54,16 +54,36 @@
       transition: transform 0.3s ease;
       border-radius: 8px;
       overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .image-modal.active .modal-content {
       transform: scale(1);
     }
 
+      .modal-content .img-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
     .modal-content img {
       display: block;
-      max-width: 100%;
-      max-height: 100%;
+      width: auto;
+      height: auto;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      object-fit: contain;
     }
 
     .close-modal {
@@ -138,43 +158,219 @@
 
 	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 	<div class="timeline" id="timeline">
+		<div class="timeline-dot" style="bottom: 50vh;"></div>
+<div class="event-image" style="bottom: 50vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 50vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>The Start</h1>
+   <span class="event-date">1945–1957</span>
+ </div>
+ <p>After World War II, tensions between the United States and the Soviet Union escalated into a conflict known as the Cold War. Rocketry, which had advanced rapidly during the war, became a central focus for both nations. German scientists, including Wernher von Braun, were brought to the U.S. through Operation Paperclip, while the Soviets recruited their own team of experts. Both sides began developing long-range ballistic missiles that could also be used for launching satellites. In July 1955, the United States announced that it would launch a satellite into orbit during the International Geophysical Year (1957–1958). The Soviet Union responded just four days later with a similar announcement, marking the beginning of the Space Race.
+</p>
+</div>
 
-    <div class="event-image" style="bottom: 5.7%; right: 130px; opacity:0; visibility:hidden; transform:translateY(-70px); cursor:pointer;">
-      <img src="{{ url_for('static', filename='images/coldwar.png') }}" alt="Cold War Beginning" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 240 180%22%3E%3Crect width%3D%22240%22 height%3D%22180%22 fill%3D%22%23113%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2240%22 fill%3D%22%23224%22 stroke%3D%22%23657dff%22 stroke-width%3D%223%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2232%22 fill%3D%22none%22 stroke%3D%22%23657dff%22 stroke-width%3D%222%22 stroke-dasharray%3D%228%2C3%22%2F%3E%3Cpath d%3D%22M80 110 L160 110%22 stroke%3D%22%23657dff%22 stroke-width%3D%223%22%2F%3E%3Ctext x%3D%22120%22 y%3D%22140%22 dominant-baseline%3D%22middle%22 text-anchor%3D%22middle%22 font-family%3D%22monospace%22 font-size%3D%2222%22 fill%3D%22%237a9bff%22%3ECold War%3C%2Ftext%3E%3C%2Fsvg%3E';">
-    </div>
-    <div class="timeline-dot" style="bottom: 5.5%;"></div>
-    <div class="dot-label" style="bottom: 5%; opacity:0; visibility:hidden; transform:translateY(-50px);">
-    	    <div class="event-title-container">
-    	      <h1>The Start</h1>
-    	      <span class="event-date">1955-1957</span>
-    	    </div>
-	    <p>At the end of World War II, tensions between the United States and the Soviet Union caused the start of the Cold War. Both superpowers began competing in everything, including science and technology. Rocketry became a key focus as both nations funded programs to advance missile and space programs. In July 1955, the U.S. announced plans to launch an artificial satellite during the International Geophysical Year. The USSR responded four days later with a similar announcement, marking the beginning of the Space Race.</p>
-      </p>
-    </div>
 
-    <div class="timeline-dot" style="bottom: 20%;"></div>
-    <div class="event-image" style="bottom: 20%; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
-      <img src="{{ url_for('static', filename='images/sputnik.png') }}">
-    </div>
-    <div class="dot-label" style="bottom: 20%; opacity:0; visibility:hidden; transform:translateY(50%);">
-      <div class="event-title-container">
-        <h1>Sputnik Launch</h1>
-        <span class="event-date">October 4, 1957</span>
-      </div>
-      <p>The Soviet Union launched Sputnik 1, the world's first artificial satellite, shocking the United States and starting the Space Race in earnest. The 184-pound, basketball-sized satellite orbited Earth for three weeks before its batteries died, and it burned up in the atmosphere in January 1958.</p>
-    </div>
+<div class="timeline-dot" style="bottom: 150vh;"></div>
+<div class="event-image" style="bottom: 150vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 150vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Sputnik 1 Launch</h1>
+   <span class="event-date">October 4, 1957</span>
+ </div>
+ <p>The Soviet Union surprised the world by launching Sputnik 1, the first artificial satellite, into Earth’s orbit. Weighing 183 pounds, the metal sphere emitted a steady radio beep that could be picked up by scientists and radio operators across the world. Though simple by today’s standards, Sputnik’s success told the world that the Soviets had advanced rocket technology faster than the US and were capable of intercontinental ballistic missile launches. The event shocked the American public and government, triggering the so-called “Sputnik Crisis.” In response, the US increased investments in science, engineering, and education.
+</p>
+</div>
 
-    <div class="timeline-dot" style="bottom: 50%;"></div>
-    <div class="event-image" style="bottom: 50%; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
-      <img src="{{ url_for('static', filename='images/nasa.png') }}" alt="NASA Establishment" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 240 180%22%3E%3Crect width%3D%22240%22 height%3D%22180%22 fill%3D%22%23113%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2250%22 fill%3D%22%23113%22 stroke%3D%22%237a9bff%22 stroke-width%3D%223%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2245%22 fill%3D%22none%22 stroke%3D%22%237a9bff%22 stroke-width%3D%221%22 stroke-dasharray%3D%2210%2C4%22%2F%3E%3Cpath d%3D%22M100 70 Q120 30 140 70%22 fill%3D%22none%22 stroke%3D%22%237a9bff%22 stroke-width%3D%223%22%2F%3E%3Ctext x%3D%22120%22 y%3D%2270%22 dominant-baseline%3D%22middle%22 text-anchor%3D%22middle%22 font-family%3D%22Arial%22 font-weight%3D%22bold%22 font-size%3D%2228%22 fill%3D%22%237a9bff%22%3ENASA%3C%2Ftext%3E%3Ctext x%3D%22120%22 y%3D%22140%22 dominant-baseline%3D%22middle%22 text-anchor%3D%22middle%22 font-family%3D%22monospace%22 font-size%3D%2218%22 fill%3D%22%237a9bff%22%3EEst. 1958%3C%2Ftext%3E%3C%2Fsvg%3E';">
-    </div>
-    <div class="dot-label" style="bottom: 50%; opacity:0; visibility:hidden; transform:translateY(50%);">
-      <div class="event-title-container">
-        <h1>NASA Established</h1>
-        <span class="event-date">July 29, 1958</span>
-      </div>
-      <p>In response to Sputnik, the United States established the National Aeronautics and Space Administration (NASA) to coordinate and conduct space exploration activities. President Eisenhower signed the National Aeronautics and Space Act, officially establishing NASA as a civilian agency with a distinctly peaceful and scientific mission.</p>
-    </div>
+
+<div class="timeline-dot" style="bottom: 250vh;"></div>
+<div class="event-image" style="bottom: 250vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik2.jpg') }}" alt="Sputnik 2">
+</div>
+<div class="dot-label" style="bottom: 250vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Sputnik 2 Launch</h1>
+   <span class="event-date">November 3, 1957</span>
+ </div>
+ <p>Only a month after Sputnik 1, the USSR launched Sputnik 2, which carried Laika, a stray dog from Moscow, into orbit. Laika became the first living creature to travel to space. The satellite was much larger, weighing over 1,100 pounds, and had life-support systems on board. Unfortunately, Laika did not survive the flight, dying a few hours after launch due to overheating.
+The mission showed that living beings could survive launch and weightlessness, and that once again, the Soviets had beaten the Americans.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 350vh;"></div>
+<div class="event-image" style="bottom: 350vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 350vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Explorer 1 Launch</h1>
+   <span class="event-date">January 31, 1958</span>
+ </div>
+ <p>In response to Sputnik, the US launched Explorer 1, its first successful satellite, launched aboard a Jupiter-C rocket. The mission was led by Dr. Wernher von Braun and a team at the Jet Propulsion Laboratory. Explorer 1 weighed only about 30 pounds but carried a scientific payload that discovered the existence of Van Allen radiation belts. The success helped the U.S. regain confidence and scientific credibility in space exploration.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 450vh;"></div>
+<div class="event-image" style="bottom: 450vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 450vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>NASA Established</h1>
+   <span class="event-date">July 29, 1958</span>
+ </div>
+ <p>To centralize its space efforts and respond to Soviet advancements, the U.S. government created the National Aeronautics and Space Administration (NASA). It replaced the National Advisory Committee for Aeronautics (NACA) and combined several existing space and research programs. NASA was to lead America's space exploration efforts and ensure that the U.S. would not fall behind in the race.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 550vh;"></div>
+<div class="event-image" style="bottom: 550vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 550vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Luna 2</h1>
+   <span class="event-date">September 13, 1959</span>
+ </div>
+ <p>The Soviet spacecraft Luna 2 became the first human-made object to reach the Moon, crash-landing on its surface. This marked another significant Soviet first, proving their rockets could reach deep space. The event further intensified U.S. urgency to keep pace.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 650vh;"></div>
+<div class="event-image" style="bottom: 650vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 650vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>First Human in Space</h1>
+   <span class="event-date">April 12, 1961</span>
+ </div>
+ <p>Soviet cosmonaut Yuri Gagarin became the first human in space aboard Vostok 1. Gagarin completed a full orbit of the Earth in a 108-minute flight, safely landing in the Soviet Union.
+ His mission was a major victory for the USSR. Gagarin became an international icon and a hero in his homeland, showing Soviet leadership in human spaceflight.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 750vh;"></div>
+<div class="event-image" style="bottom: 750vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 750vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>First American in Space</h1>
+   <span class="event-date">May 5, 1961</span>
+ </div>
+ <p>Just weeks later, Alan Shepard flew a 15-minute suborbital mission aboard Freedom 7, becoming the first American in space. Though his flight was shorter and did not orbit the Earth, it proved that American astronauts could withstand the conditions of space travel.
+ Following the mission, President John F. Kennedy made a bold announcement: the U.S. would send a man to the Moon and return him safely before the end of the 1960s.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 850vh;"></div>
+<div class="event-image" style="bottom: 850vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 850vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Kennedy’s Moon Speech</h1>
+   <span class="event-date">September 12, 1962</span>
+ </div>
+ <p>At Rice University in Houston, President Kennedy delivered one of the most famous speeches in American history. He said, “We choose to go to the Moon... not because it is easy, but because it is hard.” The speech increased national support for the space program and marked the beginning of the Apollo Program, America’s efforts to reach the moon and surpass the Soviet Union.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 950vh;"></div>
+<div class="event-image" style="bottom: 950vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 950vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>First Spacewalk</h1>
+   <span class="event-date">March 18, 1965</span>
+ </div>
+ <p>Cosmonaut Alexei Leonov exited the Voskhod 2 spacecraft and floated in space for 12 minutes, becoming the first person to perform a spacewalk. The mission had serious problems; Leonov’s suit inflated, and he struggled to re-enter the spacecraft. Still, the successful EVA demonstrated that humans were able to survive and operate outside a spacecraft, an important step for lunar missions.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 1050vh;"></div>
+<div class="event-image" style="bottom: 1050vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 1050vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Gemini Program</h1>
+   <span class="event-date">1965–1966</span>
+ </div>
+ <p>NASA launched the Gemini Program to test technologies needed for a Moon landing. These missions tested spacewalks, docking maneuvers, and long-duration flights. Astronauts like Neil Armstrong and Buzz Aldrin gained important experience during Gemini flights. The program laid the foundation for the Apollo missions and helped the U.S. catch up to the Soviet Union in human spaceflight capabilities.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 1150vh;"></div>
+<div class="event-image" style="bottom: 1150vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 1150vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Luna 9</h1>
+   <span class="event-date">February 3, 1966</span>
+ </div>
+ <p>The Soviet spacecraft Luna 9 became the first to achieve a soft landing on the Moon and transmit photos from the lunar surface. This showed the feasibility of future manned landings and further demonstrated the Soviets’ capability.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 1250vh;"></div>
+<div class="event-image" style="bottom: 1250vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 1250vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Apollo 1 Tragedy</h1>
+   <span class="event-date">January 27, 1967</span>
+ </div>
+ <p>During a routine pre-launch test, a cabin fire broke out in the Apollo 1 command module, killing astronauts Gus Grissom, Ed White, and Roger Chaffee. The tragedy devastated NASA and the nation. It revealed major design flaws and led to a complete redesign of the Apollo spacecraft, as well as better safety protocols. Although a setback, the lessons learned contributed to the success of future missions.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 1350vh;"></div>
+<div class="event-image" style="bottom: 1350vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 1350vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Apollo 8</h1>
+   <span class="event-date">December 21–27, 1968</span>
+ </div>
+ <p>Apollo 8 became the first manned mission to leave Earth’s orbit, circle the Moon, and return safely. Astronauts Frank Borman, Jim Lovell, and Bill Anders became the first humans to see the far side of the Moon, where they captured the famous “Earthrise” photo. The mission was a major milestone, proving that a lunar landing was within reach.
+</p>
+</div>
+
+
+<div class="timeline-dot" style="bottom: 1450vh;"></div>
+<div class="event-image" style="bottom: 1450vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+ <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+</div>
+<div class="dot-label" style="bottom: 1450vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+ <div class="event-title-container">
+   <h1>Apollo 11 - The End</h1>
+   <span class="event-date">July 20, 1969</span>
+ </div>
+ <p>The U.S. fulfilled Kennedy’s challenge when Apollo 11 astronauts Neil Armstrong, Buzz Aldrin, and Michael Collins reached the Moon. Armstrong and Aldrin landed in the Lunar Module "Eagle", while Collins orbited above. Armstrong became the first human to step onto the Moon, with the famous quote: “That’s one small step for man, one giant leap for mankind.” The mission was watched live by millions around the world, and it marked the end of the space race, with the US as the winner.
+
+
+</p>
+</div>
 
 
     <div class="fill" id="fillLine"></div>
@@ -195,7 +391,9 @@
   <div class="image-modal" id="imageModal">
     <span class="close-modal" id="closeModal">&times;</span>
     <div class="modal-content">
-      <img id="modalImage" src="" alt="Full size image">
+      <div class="img-wrapper">
+        <img id="modalImage" src="" alt="Full size image">
+      </div>
     </div>
   </div>
 
@@ -219,11 +417,34 @@
         // Set the modal image source
         modalImg.setAttribute('src', imgSrc);
 
+        // Reset any previous styles
+        modalImg.style.width = 'auto';
+        modalImg.style.height = 'auto';
+        modalImg.style.maxWidth = '100%';
+        modalImg.style.maxHeight = '100%';
+
         // Show the modal with animation
         modal.classList.add('active');
 
         // Prevent body scrolling when modal is open
         document.body.style.overflow = 'hidden';
+
+        // Wait for image to load to check dimensions
+        modalImg.onload = function() {
+          const viewportWidth = window.innerWidth * 0.85;
+          const viewportHeight = window.innerHeight * 0.85;
+
+          // If image exceeds viewport in any dimension, scale it down
+          if (this.naturalWidth > viewportWidth || this.naturalHeight > viewportHeight) {
+            const widthRatio = viewportWidth / this.naturalWidth;
+            const heightRatio = viewportHeight / this.naturalHeight;
+            const scaleFactor = Math.min(widthRatio, heightRatio);
+
+            // Apply the scale
+            this.style.width = (this.naturalWidth * scaleFactor) + 'px';
+            this.style.height = (this.naturalHeight * scaleFactor) + 'px';
+          }
+        };
       });
     });
 
@@ -252,9 +473,9 @@
 
     setTimeout(() => {
       // Parameters: (id, count, maxSize, speedFactor, twinkleFactor, color, baseScrollSpeed, scrollRandom)
-      initStars('starsLayer1', 70, 2.5, 0.1, 1, '#ffffff', 0.2, 0.5); // Large, fast-moving distant stars
-      initStars('starsLayer2', 100, 1.5, 0.03, 0.08, '#b7c1e6', 0.1, 0.3); // Medium stars
-      initStars('starsLayer3', 150, 1, 0.02, 0.05, '#657dff', 0.1, 0.1); // Small, slower nearby stars
+      initStars('starsLayer1', 70, 2.5, 0.1, 1, '#ffffff', 0.2, 0.2); // Large, fast-moving distant stars with reduced scroll random
+      initStars('starsLayer2', 100, 1.5, 0.03, 0.08, '#b7c1e6', 0.15, 0.1); // Medium stars with slightly higher base speed
+      initStars('starsLayer3', 150, 1, 0.02, 0.05, '#657dff', 0.1, 0.05); // Small, slower nearby stars with minimal random
       animateStars();
       updateStarsVisibility();
     }, 100);
@@ -282,12 +503,9 @@
       const { stars } = layer;
 
       stars.forEach(star => {
-        // Use individual star's scroll speed with boundary protection
-        // Ensure we never move stars beyond the reasonable bounds
-        const maxScroll = documentHeight - viewportHeight;
-        const clampedScrollY = Math.max(0, Math.min(scrollY, maxScroll));
-        const relY = star.y - (clampedScrollY * star.scrollSpeed);
-        star.visible = relY >= -200 && relY <= viewportHeight + 200; // Expanded visible range
+        // For stars, we don't apply scrolling effect - they stay fixed
+        // Just check if they're in viewport
+        star.visible = star.y >= -200 && star.y <= viewportHeight + 200; // Expanded visible range
       });
     });
   }
@@ -367,7 +585,7 @@
     const smoother = ScrollSmoother.get();
 
     if (smoother) {
-      // Use ScrollSmoother's scroll position
+      // Use ScrollSmoother's scroll position - get raw value directly
       scrollY = smoother.scrollTop();
     } else {
       // Fallback to standard scroll position
@@ -392,8 +610,9 @@
       // Draw each star
       stars.forEach(star => {
         // Determine if star is in visible range using individual scroll speeds
-        // Apply easing to scroll effect when near top/bottom boundaries
-        const scrollEffect = star.scrollSpeed * (1 - Math.pow(Math.min(clampedScrollY / viewportHeight, 1), 3) * 0.3);
+        // Use a more consistent scrolling effect by eliminating the easing near the top
+        // This fixes the lag/delay issue when scrolling at the top of the page
+        const scrollEffect = star.scrollSpeed;
         const relativeY = star.y - (clampedScrollY * scrollEffect);
         const isVisible = relativeY >= -50 && relativeY <= canvas.height + 50;
 
@@ -482,6 +701,8 @@
   smooth: 1,
   effects: true,
   smoothTouch: 0.1,
+  normalizeScroll: true,
+  ignoreMobileResize: true,
 });
     gsap.registerEffect({
   name: "fade",
@@ -574,8 +795,8 @@
         return;
       }
 
-      // Connect ScrollSmoother to star updates
-      smoother.effects('.stars-container', {speed: 1, lag: 0.5});
+      // Stars container should stay fixed
+      smoother.effects('.stars-container', {speed: 0});
 
       // Update stars when ScrollSmoother updates
       ScrollTrigger.addEventListener('refresh', updateStarsVisibility);
