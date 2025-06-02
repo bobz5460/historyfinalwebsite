@@ -23,7 +23,6 @@
   <canvas id="starsLayer3" class="stars-canvas"></canvas>
 </div>
   <style>
-    /* Image modal styles */
     .image-modal {
       position: fixed;
       top: 0;
@@ -387,7 +386,6 @@ The mission showed that living beings could survive launch and weightlessness, a
     </div>
   </div>
 
-  <!-- Image Modal -->
   <div class="image-modal" id="imageModal">
     <span class="close-modal" id="closeModal">&times;</span>
     <div class="modal-content">
@@ -401,46 +399,34 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 
 <script>
-  // Modal functionality
   document.addEventListener('DOMContentLoaded', function() {
-    // Set up image modal functionality
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const closeBtn = document.getElementById('closeModal');
-
-    // Add click event to all event images
     document.querySelectorAll('.event-image img').forEach(img => {
       img.addEventListener('click', function() {
-        // Get the original image source
         const imgSrc = this.getAttribute('src');
 
-        // Set the modal image source
         modalImg.setAttribute('src', imgSrc);
 
-        // Reset any previous styles
         modalImg.style.width = 'auto';
         modalImg.style.height = 'auto';
         modalImg.style.maxWidth = '100%';
         modalImg.style.maxHeight = '100%';
 
-        // Show the modal with animation
         modal.classList.add('active');
 
-        // Prevent body scrolling when modal is open
         document.body.style.overflow = 'hidden';
 
-        // Wait for image to load to check dimensions
         modalImg.onload = function() {
           const viewportWidth = window.innerWidth * 0.85;
           const viewportHeight = window.innerHeight * 0.85;
 
-          // If image exceeds viewport in any dimension, scale it down
           if (this.naturalWidth > viewportWidth || this.naturalHeight > viewportHeight) {
             const widthRatio = viewportWidth / this.naturalWidth;
             const heightRatio = viewportHeight / this.naturalHeight;
             const scaleFactor = Math.min(widthRatio, heightRatio);
 
-            // Apply the scale
             this.style.width = (this.naturalWidth * scaleFactor) + 'px';
             this.style.height = (this.naturalHeight * scaleFactor) + 'px';
           }
@@ -448,17 +434,15 @@ The mission showed that living beings could survive launch and weightlessness, a
       });
     });
 
-    // Close modal when clicking the X button
     closeBtn.addEventListener('click', closeModal);
 
-    // Close modal when clicking outside the image
+
     modal.addEventListener('click', function(e) {
       if (e.target === modal) {
         closeModal();
       }
     });
 
-    // Close modal when pressing ESC key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.classList.contains('active')) {
         closeModal();
@@ -467,31 +451,27 @@ The mission showed that living beings could survive launch and weightlessness, a
 
     function closeModal() {
       modal.classList.remove('active');
-      // Restore body scrolling
       document.body.style.overflow = '';
     }
 
     setTimeout(() => {
       // Parameters: (id, count, maxSize, speedFactor, twinkleFactor, color, baseScrollSpeed, scrollRandom)
-      initStars('starsLayer1', 70, 2.5, 0.1, 1, '#ffffff', 0.2, 0.2); // Large, fast-moving distant stars with reduced scroll random
-      initStars('starsLayer2', 100, 1.5, 0.03, 0.08, '#b7c1e6', 0.15, 0.1); // Medium stars with slightly higher base speed
-      initStars('starsLayer3', 150, 1, 0.02, 0.05, '#657dff', 0.1, 0.05); // Small, slower nearby stars with minimal random
+      initStars('starsLayer1', 70, 2.5, 0.1, 1, '#ffffff', 0.2, 0.2);
+      initStars('starsLayer2', 100, 1.5, 0.03, 0.08, '#b7c1e6', 0.15, 0.1);
+      initStars('starsLayer3', 150, 1, 0.02, 0.05, '#657dff', 0.1, 0.05);
       animateStars();
       updateStarsVisibility();
     }, 100);
   });
 
-  // Update which stars are in the visible area
+
   function updateStarsVisibility() {
-    // Get scroll position from ScrollSmoother if available
     let scrollY;
     const smoother = ScrollSmoother.get();
 
     if (smoother) {
-      // Use ScrollSmoother's scroll position
       scrollY = smoother.scrollTop();
     } else {
-      // Fallback to standard scroll position
       scrollY = window.scrollY || window.pageYOffset;
     }
 
@@ -503,32 +483,27 @@ The mission showed that living beings could survive launch and weightlessness, a
       const { stars } = layer;
 
       stars.forEach(star => {
-        // For stars, we don't apply scrolling effect - they stay fixed
-        // Just check if they're in viewport
         star.visible = star.y >= -200 && star.y <= viewportHeight + 200; // Expanded visible range
       });
     });
   }
 
-  // Store stars data
+
   const starLayers = {};
 
-  // Initialize stars for a canvas layer
   function initStars(canvasId, count, maxSize, speedFactor, twinkleFactor, color, baseScrollSpeed, scrollRandom) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
 
-    // Get document height for stars distribution
     const docHeight = Math.max(
       document.body.scrollHeight,
       document.body.offsetHeight,
       document.documentElement.clientHeight,
       document.documentElement.scrollHeight,
       document.documentElement.offsetHeight,
-      10000 // Fallback minimum height (timeline height)
+      10000
     );
 
-    // Set canvas to cover viewport
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -536,34 +511,29 @@ The mission showed that living beings could survive launch and weightlessness, a
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-
-    // Create stars distributed across the full document height
     const stars = [];
     const starDensity = count / (window.innerHeight);
     const totalStars = Math.ceil(starDensity * docHeight);
 
     for (let i = 0; i < totalStars; i++) {
-      // Calculate star size with more variation
       const starSize = Math.random() * maxSize + 0.5;
-      // Adjust parallax speed based on star size for realistic depth effect
-      // Smaller stars should move slower (appear closer), larger stars move faster (appear farther)
-      const sizeRatio = starSize / (maxSize + 0.5); // 0-1 based on size
+      const sizeRatio = starSize / (maxSize + 0.5);
       const individualScrollSpeed = baseScrollSpeed + (scrollRandom * Math.random() * sizeRatio);
 
       stars.push({
         x: Math.random() * canvas.width,
-        y: Math.random() * docHeight, // Distribute across full document height
-        originalY: 0, // Will store original position for parallax
+        y: Math.random() * docHeight,
+        originalY: 0,
         size: starSize,
         speed: Math.random() * speedFactor + 0.1,
         twinkle: Math.random() * twinkleFactor,
-        brightness: Math.random() * 0.3 + 0.7, // Start brighter with less variation
-        brightnessDelta: Math.random() * 0.002 + 0.0005, // Much slower brightness changes
+        brightness: Math.random() * 0.3 + 0.7,
+        brightnessDelta: Math.random() * 0.002 + 0.0005,
         brightDirection: Math.random() > 0.5 ? 1 : -1,
-        lastUpdate: Math.random() * 100, // Randomize update timing
-        updateFrequency: Math.random() * 10 + 30, // Only update occasionally
-        scrollSpeed: individualScrollSpeed, // Individual parallax speed for each star
-        visible: false // Track visibility
+        lastUpdate: Math.random() * 100,
+        updateFrequency: Math.random() * 10 + 30,
+        scrollSpeed: individualScrollSpeed,
+        visible: false
       });
     }
 
@@ -578,76 +548,49 @@ The mission showed that living beings could survive launch and weightlessness, a
     };
   }
 
-  // Animate all star layers
   function animateStars() {
-    // Get scroll position from ScrollSmoother if available
     let scrollY;
     const smoother = ScrollSmoother.get();
 
     if (smoother) {
-      // Use ScrollSmoother's scroll position - get raw value directly
       scrollY = smoother.scrollTop();
     } else {
-      // Fallback to standard scroll position
       scrollY = window.scrollY || window.pageYOffset;
     }
 
-    // Get document dimensions for proper boundary handling
     const viewportHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
     const maxScroll = documentHeight - viewportHeight;
 
-    // Clamp scroll value to prevent stars from breaking at page boundaries
     const clampedScrollY = Math.max(0, Math.min(scrollY, maxScroll));
 
     Object.keys(starLayers).forEach(layerId => {
       const layer = starLayers[layerId];
       const { canvas, ctx, stars, color } = layer;
 
-      // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw each star
       stars.forEach(star => {
-        // Determine if star is in visible range using individual scroll speeds
-        // Use a more consistent scrolling effect by eliminating the easing near the top
-        // This fixes the lag/delay issue when scrolling at the top of the page
         const scrollEffect = star.scrollSpeed;
         const relativeY = star.y - (clampedScrollY * scrollEffect);
         const isVisible = relativeY >= -50 && relativeY <= canvas.height + 50;
 
-        // Only process visible stars
         if (isVisible) {
-          // Update counter for this star
           star.lastUpdate++;
-
-          // Only update brightness occasionally for slower twinkling
           if (star.lastUpdate > star.updateFrequency) {
-            // Twinkle effect
             star.brightness += star.brightnessDelta * star.brightDirection;
-
-            // Constrain brightness with narrower range for subtler effect
             if (star.brightness > 0.95) {
               star.brightness = 0.95;
               star.brightDirection = -1;
-              // Randomize next update frequency
               star.updateFrequency = Math.random() * 10 + 30;
             } else if (star.brightness < 0.75) {
               star.brightness = 0.75;
               star.brightDirection = 1;
-              // Randomize next update frequency
               star.updateFrequency = Math.random() * 10 + 30;
             }
-
-            // Reset counter
             star.lastUpdate = 0;
           }
-
-          // Calculate position relative to scroll
           const drawY = relativeY;
-
-          // Draw star with slight size variation based on scroll for extra depth effect
-          // Stars that move faster should appear to vary size slightly as you scroll
           const scrollEffect = 1 + (Math.sin(scrollY * 0.001 * star.scrollSpeed) * 0.1 * star.scrollSpeed);
           const currentSize = star.size * scrollEffect;
 
@@ -655,7 +598,6 @@ The mission showed that living beings could survive launch and weightlessness, a
           ctx.fillStyle = color;
           ctx.globalAlpha = star.brightness;
 
-          // Create a slight glow effect
           const glow = ctx.createRadialGradient(
             star.x, drawY, 0,
             star.x, drawY, currentSize * 2
@@ -668,7 +610,6 @@ The mission showed that living beings could survive launch and weightlessness, a
           ctx.arc(star.x, drawY, currentSize, 0, Math.PI * 2);
           ctx.fill();
 
-          // Some stars have a subtle glow
           if (currentSize > 1.5) {
             ctx.globalAlpha = star.brightness * 0.3;
             ctx.beginPath();
@@ -676,16 +617,11 @@ The mission showed that living beings could survive launch and weightlessness, a
             ctx.fillStyle = glow;
             ctx.fill();
           }
-
-          // Only move stars occasionally and very slightly for more stable background
-          // Stars with higher parallax speeds (further away) should move more to enhance depth effect
           const moveProbability = 0.01 * (1 + star.scrollSpeed);
           if (Math.random() < moveProbability) {
-            // Higher parallax stars move more
             const moveFactor = 0.2 * (0.5 + star.scrollSpeed);
             star.x += (Math.random() - 0.5) * star.twinkle * moveFactor;
 
-            // Keep stars within horizontal bounds
             if (star.x < 0) star.x = canvas.width;
             if (star.x > canvas.width) star.x = 0;
           }
@@ -713,13 +649,7 @@ The mission showed that living beings could survive launch and weightlessness, a
   extendTimeline: true,
 });
 	const welcome = new SplitType("#welcome");
-	// Create a timeline for the welcome text animation
 	const welcomeTl = gsap.timeline();
-
-	// Initialize welcome text animation
-
-
-	// Initial animation: characters flying in together
 	welcomeTl.to('.char', {
         stagger: 0.05,
 		y: 0,
@@ -728,7 +658,6 @@ The mission showed that living beings could survive launch and weightlessness, a
 		ease: "back.out(1.5)"
 	});
 
-	// Add a slight scale bounce to each character (all at once for uniformity)
 	welcomeTl.to('.char', {
         stagger: 0.04,
 		scale: 1.1,
@@ -736,7 +665,6 @@ The mission showed that living beings could survive launch and weightlessness, a
 		ease: "power2.out"
 	}, "-=0.2");
 
-	// Return to normal scale (all at once for uniformity)
 	welcomeTl.to('.char', {
         stagger: 0.04,
 		scale: 1,
@@ -744,7 +672,6 @@ The mission showed that living beings could survive launch and weightlessness, a
 		ease: "power2.in"
 	});
 
-	// Apply a continuous glow effect to the entire text
 	welcomeTl.to('#welcome', {
 		duration: 2,
 		textShadow: '0 0 12px rgba(101, 125, 255, 0.8), 0 0 20px rgba(101, 125, 255, 0.4)',
@@ -752,7 +679,6 @@ The mission showed that living beings could survive launch and weightlessness, a
 		yoyo: true,
 		repeat: -1
 	});
-	  // Parallax is now handled directly in the star animation loop
 	gsap.to(".earth", {
 	  backgroundPositionY: "-=10000x",
 	  ease: "none",
@@ -764,7 +690,6 @@ The mission showed that living beings could survive launch and weightlessness, a
 	  }
 	});
 
-	// Add subtle parallax to the right content area
 	gsap.to(".moon-content-right", {
 	  y: "-15%",
 	  ease: "none",
@@ -777,7 +702,6 @@ The mission showed that living beings could survive launch and weightlessness, a
 	});
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Ensure all dot-labels and event images are hidden before animation
     gsap.set(document.querySelectorAll('.dot-label, .event-image'), {
       autoAlpha: 0,
       y: -50
@@ -787,18 +711,14 @@ The mission showed that living beings could survive launch and weightlessness, a
     let timelineHeight;
     let fillLine = document.getElementById("fillLine");
 
-    // Rocket timeline removed
 
     const setupScrollTrigger = () => {
       if (!smoother) {
         setTimeout(setupScrollTrigger, 100);
         return;
       }
-
-      // Stars container should stay fixed
       smoother.effects('.stars-container', {speed: 0});
 
-      // Update stars when ScrollSmoother updates
       ScrollTrigger.addEventListener('refresh', updateStarsVisibility);
       smoother.effects(false, {onUpdate: updateStarsVisibility});
 
@@ -827,11 +747,11 @@ The mission showed that living beings could survive launch and weightlessness, a
           } else if (timelineTop >= viewportHeight) {
             progress = 1;
           } else {
-            // Correct progress: 1 at bottom, 0 at top
+
             progress = (timelineBottom - viewportHeight) / (timelineHeight - viewportHeight);
             progress = Math.max(0, Math.min(1, progress));
           }
-          // Set fill height (starts at 100%, shrinks to 0%)
+
           fillLine.style.height = (progress * 100) + "%";
         },
         invalidateOnRefresh: true
@@ -903,7 +823,6 @@ The mission showed that living beings could survive launch and weightlessness, a
             duration: 1.2
           }, "-=1.2");
       });
-      // Initialize bottom labels and images to be visible on page load since we start at the bottom
       setTimeout(() => {
         const viewportHeight = window.innerHeight;
         document.querySelectorAll('.dot-label, .event-image').forEach(element => {
