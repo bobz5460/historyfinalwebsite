@@ -15,6 +15,7 @@ body {
     background-color: #000725;
     overflow-x: hidden;
 }
+
 .stars-container {
     position: fixed;
     top: 0;
@@ -164,7 +165,7 @@ body {
     padding: 0;
     width: 4px;
     background-color: #333;
-    height: 1500vh;
+    height: 1600vh;
 }
 .timeline .fill {
   position: relative;
@@ -202,7 +203,7 @@ body {
 .dot-label {
     position: absolute;
     left: 80px;
-    transform: translateY(-50px);
+    transform: translateY(-100%);
     background-color: rgba(8, 15, 40, 0.85); /* Dark blue with transparency */
     color: #e0e6ff; /* Light blue-ish text color */
     padding: 16px 20px;
@@ -216,6 +217,7 @@ body {
     transition: all 0.3s ease;
     z-index: 10;
     max-width: 500px;
+    min-width: 500px;
 }
 
 .dot-label:hover {
@@ -402,8 +404,8 @@ body {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(101, 125, 255, 0.3);
-    width: 240px;
-    height: 180px;
+    width: 380px;
+    height: 240px;
     background-color: rgba(8, 15, 40, 0.6);
     backdrop-filter: blur(5px);
     z-index: 9;

@@ -17,6 +17,31 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 <body>
+<!-- Banner at the top -->
+<div id="bobbyBanner" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background: linear-gradient(90deg, rgba(24,31,58,0.65) 0%, rgba(43,52,96,0.65) 100%);
+  color: #cfd9ff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 12px 0;
+  z-index: 2000;
+  box-shadow: 0 2px 12px rgba(101,125,255,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border-bottom: 1.5px solid rgba(101,125,255,0.18);
+">
+  Made by Bobby -<a href="https://docs.google.com/document/d/1SuCF-xfGshgw2lFP33lsDmW4ILQEO78pg5K3valyHGg/edit?usp=sharing" target="_blank" style="color:#8faaff;text-decoration:underline;font-weight:normal;font-size:1.2rem;letter-spacing:normal;margin-left:8px;">Works Cited</a>
+</div>
 <div class="stars-container">
   <canvas id="starsLayer1" class="stars-canvas"></canvas>
   <canvas id="starsLayer2" class="stars-canvas"></canvas>
@@ -102,13 +127,39 @@
       text-shadow: 0 0 15px rgba(101, 125, 255, 0.8);
     }
 
-    .event-image {
+    .event-image, .event-video {
+      position: absolute;
       cursor: pointer;
+      transform: translateY(50%) !important;
       transition: box-shadow 0.2s ease;
+      /* Remove width and height to allow aspect ratio preservation */
+      /* width: auto;
+      height: auto; */
+    }
+    .event-image:hover, .event-video:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(101, 125, 255, 0.6) !important;
     }
 
-    .event-image:hover {
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(101, 125, 255, 0.6) !important;
+    .event-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .event-video {
+      width: 650px;
+      height: 360px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .event-video iframe {
+      min-width: 650px;
+      min-height: 360px;
+      border: none;
+      border-radius: 8px;
     }
 
     .timeline {
@@ -151,6 +202,11 @@
       transform: translateX(-50%) scale(1.2);
       box-shadow: 0 0 15px 4px rgba(101, 125, 255, 0.9);
     }
+
+    .dot-label {
+      position: absolute;
+      transform: translateY(50%) !important;
+    }
   </style>
   <div id="smooth-wrapper">
     <div id="smooth-content">
@@ -161,7 +217,7 @@
 <div class="event-image" style="bottom: 50vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
  <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
 </div>
-<div class="dot-label" style="bottom: 50vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+<div class="dot-label" style="bottom: 50vh; opacity:0; visibility:hidden; transform:translateY(-50%);">
  <div class="event-title-container">
    <h1>The Start</h1>
    <span class="event-date">1945–1957</span>
@@ -177,7 +233,7 @@
 </div>
 <div class="dot-label" style="bottom: 150vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
-   <h1>Sputnik 1 Launch</h1>
+   <h1>Sputnik 1</h1>
    <span class="event-date">October 4, 1957</span>
  </div>
  <p>The Soviet Union surprised the world by launching Sputnik 1, the first artificial satellite, into Earth’s orbit. Weighing 183 pounds, the metal sphere emitted a steady radio beep that could be picked up by scientists and radio operators across the world. Though simple by today’s standards, Sputnik’s success told the world that the Soviets had advanced rocket technology faster than the US and were capable of intercontinental ballistic missile launches. The event shocked the American public and government, triggering the so-called “Sputnik Crisis.” In response, the US increased investments in science, engineering, and education.
@@ -191,7 +247,7 @@
 </div>
 <div class="dot-label" style="bottom: 250vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
-   <h1>Sputnik 2 Launch</h1>
+   <h1>Sputnik 2</h1>
    <span class="event-date">November 3, 1957</span>
  </div>
  <p>Only a month after Sputnik 1, the USSR launched Sputnik 2, which carried Laika, a stray dog from Moscow, into orbit. Laika became the first living creature to travel to space. The satellite was much larger, weighing over 1,100 pounds, and had life-support systems on board. Unfortunately, Laika did not survive the flight, dying a few hours after launch due to overheating.
@@ -202,11 +258,11 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 350vh;"></div>
 <div class="event-image" style="bottom: 350vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/explorer1.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 350vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
-   <h1>Explorer 1 Launch</h1>
+   <h1>Explorer 1</h1>
    <span class="event-date">January 31, 1958</span>
  </div>
  <p>In response to Sputnik, the US launched Explorer 1, its first successful satellite, launched aboard a Jupiter-C rocket. The mission was led by Dr. Wernher von Braun and a team at the Jet Propulsion Laboratory. Explorer 1 weighed only about 30 pounds but carried a scientific payload that discovered the existence of Van Allen radiation belts. The success helped the U.S. regain confidence and scientific credibility in space exploration.
@@ -216,7 +272,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 450vh;"></div>
 <div class="event-image" style="bottom: 450vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/nasa.png') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 450vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -230,7 +286,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 550vh;"></div>
 <div class="event-image" style="bottom: 550vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/luna2.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 550vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -244,7 +300,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 650vh;"></div>
 <div class="event-image" style="bottom: 650vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/yuri.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 650vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -259,7 +315,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 750vh;"></div>
 <div class="event-image" style="bottom: 750vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/alan.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 750vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -273,8 +329,8 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 
 <div class="timeline-dot" style="bottom: 850vh;"></div>
-<div class="event-image" style="bottom: 850vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+<div class="event-video" style="bottom: 850vh; right: 130px;">
+ <iframe src="https://www.youtube.com/embed/WZyRbnpGyzQ?si=eyBAQ5_6B6g2VfNj&amp;start=525" title="Sputnik 1 Launch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div class="dot-label" style="bottom: 850vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -287,8 +343,8 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 
 <div class="timeline-dot" style="bottom: 950vh;"></div>
-<div class="event-image" style="bottom: 950vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+<div class="event-video" style="bottom: 950vh; right: 130px;">
+ <iframe src="https://www.youtube.com/embed/c5ZtBhQQPjM?si=5LKg9Sav6Z4mymO4" title="Sputnik 1 Launch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div class="dot-label" style="bottom: 950vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -302,7 +358,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 1050vh;"></div>
 <div class="event-image" style="bottom: 1050vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/gemini.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 1050vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -316,7 +372,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 1150vh;"></div>
 <div class="event-image" style="bottom: 1150vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/luna9.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 1150vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -330,7 +386,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 1250vh;"></div>
 <div class="event-image" style="bottom: 1250vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/apollo1.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 1250vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -344,7 +400,7 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 1350vh;"></div>
 <div class="event-image" style="bottom: 1350vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/apollo8.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 1350vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
@@ -358,11 +414,11 @@ The mission showed that living beings could survive launch and weightlessness, a
 
 <div class="timeline-dot" style="bottom: 1450vh;"></div>
 <div class="event-image" style="bottom: 1450vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
- <img src="{{ url_for('static', filename='images/sputnik.png') }}" alt="Sputnik 1">
+ <img src="{{ url_for('static', filename='images/apollo11.jpg') }}" alt="Sputnik 1">
 </div>
 <div class="dot-label" style="bottom: 1450vh; opacity:0; visibility:hidden; transform:translateY(50%);">
  <div class="event-title-container">
-   <h1>Apollo 11 - The End</h1>
+   <h1>Apollo 11</h1>
    <span class="event-date">July 20, 1969</span>
  </div>
  <p>The U.S. fulfilled Kennedy’s challenge when Apollo 11 astronauts Neil Armstrong, Buzz Aldrin, and Michael Collins reached the Moon. Armstrong and Aldrin landed in the Lunar Module "Eagle", while Collins orbited above. Armstrong became the first human to step onto the Moon, with the famous quote: “That’s one small step for man, one giant leap for mankind.” The mission was watched live by millions around the world, and it marked the end of the space race, with the US as the winner.
@@ -371,6 +427,18 @@ The mission showed that living beings could survive launch and weightlessness, a
 </p>
 </div>
 
+<!-- Add new event for The Legacy -->
+<div class="timeline-dot" style="bottom: 1550vh;"></div>
+<div class="event-image" style="bottom: 1550vh; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+  <img src="{{ url_for('static', filename='images/legacy.jpg') }}" alt="Legacy of the Space Race">
+</div>
+<div class="dot-label" style="bottom: 1550vh; opacity:0; visibility:hidden; transform:translateY(50%);">
+  <div class="event-title-container">
+    <h1>The Legacy</h1>
+    <span class="event-date">After 1969</span>
+  </div>
+  <p>The space race transformed science, technology, and global politics. It led to innovations in computers, materials, and communications, and inspired generations to pursue STEM careers. The rivalry gave way to cooperation, with projects like Apollo-Soyuz and the International Space Station. The legacy of the space race continues to shape exploration, discovery, and our view of Earth and the universe.</p>
+</div>
 
     <div class="fill" id="fillLine"></div>
 
@@ -702,9 +770,14 @@ The mission showed that living beings could survive launch and weightlessness, a
 	});
 
   document.addEventListener("DOMContentLoaded", () => {
-    gsap.set(document.querySelectorAll('.dot-label, .event-image'), {
+    gsap.set(document.querySelectorAll('.dot-label'), {
       autoAlpha: 0,
       y: -50
+    });
+    
+    gsap.set(document.querySelectorAll('.event-image, .event-video'), {
+      autoAlpha: 0,
+      x: 70
     });
 
     let smoother;
@@ -794,10 +867,10 @@ The mission showed that living beings could survive launch and weightlessness, a
             ease: "power2.out"
           }, "-=0.2");
       });
-      document.querySelectorAll('.event-image').forEach(image => {
+      document.querySelectorAll('.event-image, .event-video').forEach(element => {
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: image,
+            trigger: element,
             start: "center bottom",
             end: "center top-=150",
             toggleActions: "play reverse play reverse",
@@ -805,33 +878,45 @@ The mission showed that living beings could survive launch and weightlessness, a
           }
         });
 
-        tl.set(image, {autoAlpha: 0, x: 70})
-          .to(image, {
+        tl.set(element, {autoAlpha: 0, x: 70})
+          .to(element, {
             autoAlpha: 1,
             x: 0,
             duration: 1,
             ease: "power3.out"
-          })
-          .from(image.querySelector('img'), {
+          });
+
+        // Different animations for images vs videos
+        if (element.classList.contains('event-image')) {
+          tl.from(element.querySelector('img'), {
             scale: 1.15,
             filter: "brightness(0.8)",
             duration: 1.5,
             ease: "power2.out"
-          }, "-=0.6")
-          .to(image, {
-            boxShadow: "0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(101, 125, 255, 0.5)",
-            duration: 1.2
-          }, "-=1.2");
+          }, "-=0.6");
+        } else if (element.classList.contains('event-video')) {
+          tl.from(element.querySelector('iframe'), {
+            scale: 1.05,
+            opacity: 0.8,
+            duration: 1.2,
+            ease: "power2.out"
+          }, "-=0.6");
+        }
+
+        tl.to(element, {
+          boxShadow: "0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(101, 125, 255, 0.5)",
+          duration: 1.2
+        }, "-=1.2");
       });
       setTimeout(() => {
         const viewportHeight = window.innerHeight;
-        document.querySelectorAll('.dot-label, .event-image').forEach(element => {
-          const bottom = parseFloat(element.style.bottom) || 0;
-          if (bottom <= 20) {
-            if (element.classList.contains('event-image')) {
-              gsap.set(element, {opacity: 1, x: 0, visibility: 'visible'});
+        document.querySelectorAll('.dot-label, .event-image, .event-video').forEach(element => {
+          const bottom = parseFloat(element.style.bottom.replace('vh', '')) * viewportHeight / 100;
+          if (bottom <= viewportHeight * 0.2) { // Show elements at the bottom 20% of viewport
+            if (element.classList.contains('event-image') || element.classList.contains('event-video')) {
+              gsap.set(element, {autoAlpha: 1, x: 0, visibility: 'visible'});
             } else {
-              gsap.set(element, {opacity: 1, y: 0, visibility: 'visible'});
+              gsap.set(element, {autoAlpha: 1, y: 0, visibility: 'visible'});
             }
           }
         });
@@ -856,4 +941,43 @@ The mission showed that living beings could survive launch and weightlessness, a
     checkSmoother();
   });
 
+  // Banner show/hide logic
+  document.addEventListener("DOMContentLoaded", function() {
+    // Banner logic
+    const banner = document.getElementById('bobbyBanner');
+    let lastBannerState = false;
+
+    function updateBanner() {
+      let scrollY = 0;
+      const smoother = window.ScrollSmoother && ScrollSmoother.get();
+      if (smoother) {
+        scrollY = smoother.scrollTop();
+      } else {
+        scrollY = window.scrollY || window.pageYOffset;
+      }
+      // Show banner if at the very top (allowing a small threshold for float imprecision)
+      if (scrollY <= 2) {
+        if (!lastBannerState) {
+          banner.style.opacity = '1';
+          banner.style.pointerEvents = 'auto';
+          lastBannerState = true;
+        }
+      } else {
+        if (lastBannerState) {
+          banner.style.opacity = '0';
+          banner.style.pointerEvents = 'none';
+          lastBannerState = false;
+        }
+      }
+    }
+
+    // Use GSAP ticker for smooth updates with ScrollSmoother
+    if (window.gsap && window.ScrollSmoother) {
+      gsap.ticker.add(updateBanner);
+    } else {
+      window.addEventListener('scroll', updateBanner);
+    }
+    // Initial check
+    setTimeout(updateBanner, 100);
+  });
 </script>
