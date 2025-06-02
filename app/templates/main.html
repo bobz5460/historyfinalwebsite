@@ -16,14 +16,82 @@
 	<script src="https://unpkg.com/split-type"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
-
+<body>
 <div class="stars-container">
   <canvas id="starsLayer1" class="stars-canvas"></canvas>
   <canvas id="starsLayer2" class="stars-canvas"></canvas>
   <canvas id="starsLayer3" class="stars-canvas"></canvas>
 </div>
-<body>
   <style>
+    /* Image modal styles */
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 7, 37, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .image-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 0 30px rgba(101, 125, 255, 0.6);
+      border: 2px solid rgba(101, 125, 255, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .image-modal.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-content img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #cfd9ff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-modal:hover {
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(101, 125, 255, 0.8);
+    }
+
+    .event-image {
+      cursor: pointer;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .event-image:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(101, 125, 255, 0.6) !important;
+    }
+
     .timeline {
       position: relative;
       margin: 0 auto;
@@ -69,31 +137,10 @@
     <div id="smooth-content">
 
 	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
-	<div class="moon-landing-section">
-	  <div class="moon-content">
-	    <div class="moon-title">
-	      <h2>The End</h2>
-		    <h1>Apollo 11</h1>
-	      <h2>July 20, 1969</h2>
-	    </div>
-	    <div class="moon-quote">
-	      <p>"That's one small step for man, one giant leap for mankind."</p>
-	      <p class="quote-author">- Neil Armstrong</p>
-	    </div>
-	  </div>
-		<div class="moon-content-rocket">
-			<img src='static/saturnv.png'>
-		</div>
-	<div class="moon-content-right">
-		<p>The Space Race reached its climax when Neil Armstrong and Buzz Aldrin landed on the Moon aboard Apollo 11’s Lunar Module, Eagle, while Michael Collins orbited above. Armstrong’s words—"That's one small step for [a] man, one giant leap for mankind"—became instantly iconic. The mission fulfilled Kennedy’s goal, demonstrated American technological superiority, and won the Space Race for the United States.
-</p>
-	</div>
-	</div>
-
 	<div class="timeline" id="timeline">
 
-    <div class="dot-image" style="bottom: 5.7%; opacity:0; visibility:hidden; transform:translateY(-50px);">
+    <div class="event-image" style="bottom: 5.7%; right: 130px; opacity:0; visibility:hidden; transform:translateY(-70px); cursor:pointer;">
+      <img src="{{ url_for('static', filename='images/coldwar.png') }}" alt="Cold War Beginning" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 240 180%22%3E%3Crect width%3D%22240%22 height%3D%22180%22 fill%3D%22%23113%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2240%22 fill%3D%22%23224%22 stroke%3D%22%23657dff%22 stroke-width%3D%223%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2232%22 fill%3D%22none%22 stroke%3D%22%23657dff%22 stroke-width%3D%222%22 stroke-dasharray%3D%228%2C3%22%2F%3E%3Cpath d%3D%22M80 110 L160 110%22 stroke%3D%22%23657dff%22 stroke-width%3D%223%22%2F%3E%3Ctext x%3D%22120%22 y%3D%22140%22 dominant-baseline%3D%22middle%22 text-anchor%3D%22middle%22 font-family%3D%22monospace%22 font-size%3D%2222%22 fill%3D%22%237a9bff%22%3ECold War%3C%2Ftext%3E%3C%2Fsvg%3E';">
     </div>
     <div class="timeline-dot" style="bottom: 5.5%;"></div>
     <div class="dot-label" style="bottom: 5%; opacity:0; visibility:hidden; transform:translateY(-50px);">
@@ -106,6 +153,9 @@
     </div>
 
     <div class="timeline-dot" style="bottom: 20%;"></div>
+    <div class="event-image" style="bottom: 20%; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+      <img src="{{ url_for('static', filename='images/sputnik.png') }}">
+    </div>
     <div class="dot-label" style="bottom: 20%; opacity:0; visibility:hidden; transform:translateY(50%);">
       <div class="event-title-container">
         <h1>Sputnik Launch</h1>
@@ -115,6 +165,9 @@
     </div>
 
     <div class="timeline-dot" style="bottom: 50%;"></div>
+    <div class="event-image" style="bottom: 50%; right: 130px; opacity:0; visibility:hidden; transform:translateY(70px); cursor:pointer;">
+      <img src="{{ url_for('static', filename='images/nasa.png') }}" alt="NASA Establishment" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 240 180%22%3E%3Crect width%3D%22240%22 height%3D%22180%22 fill%3D%22%23113%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2250%22 fill%3D%22%23113%22 stroke%3D%22%237a9bff%22 stroke-width%3D%223%22%2F%3E%3Ccircle cx%3D%22120%22 cy%3D%2270%22 r%3D%2245%22 fill%3D%22none%22 stroke%3D%22%237a9bff%22 stroke-width%3D%221%22 stroke-dasharray%3D%2210%2C4%22%2F%3E%3Cpath d%3D%22M100 70 Q120 30 140 70%22 fill%3D%22none%22 stroke%3D%22%237a9bff%22 stroke-width%3D%223%22%2F%3E%3Ctext x%3D%22120%22 y%3D%2270%22 dominant-baseline%3D%22middle%22 text-anchor%3D%22middle%22 font-family%3D%22Arial%22 font-weight%3D%22bold%22 font-size%3D%2228%22 fill%3D%22%237a9bff%22%3ENASA%3C%2Ftext%3E%3Ctext x%3D%22120%22 y%3D%22140%22 dominant-baseline%3D%22middle%22 text-anchor%3D%22middle%22 font-family%3D%22monospace%22 font-size%3D%2218%22 fill%3D%22%237a9bff%22%3EEst. 1958%3C%2Ftext%3E%3C%2Fsvg%3E';">
+    </div>
     <div class="dot-label" style="bottom: 50%; opacity:0; visibility:hidden; transform:translateY(50%);">
       <div class="event-title-container">
         <h1>NASA Established</h1>
@@ -129,9 +182,20 @@
 </div>
 
 <div class="container">
-	    <img src='static/earth.png' class='earth'>
-	    <div class="middle"> <h1 id="welcome">Welcome to Space!</h1> </div>
+        <div class="earth-glow"></div>
+    	    <div class="middle">
+            <h1 id="welcome">Welcome to Space!</h1>
+            <div class="subtitle">History of the space race</div>
+        </div>
     </div>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal">
+    <span class="close-modal" id="closeModal">&times;</span>
+    <div class="modal-content">
+      <img id="modalImage" src="" alt="Full size image">
     </div>
   </div>
 
@@ -139,23 +203,59 @@
 
 
 <script>
-  // Stars initialization
+  // Modal functionality
   document.addEventListener('DOMContentLoaded', function() {
-    // Wait a moment for document to be fully loaded and measured
+    // Set up image modal functionality
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.getElementById('closeModal');
+
+    // Add click event to all event images
+    document.querySelectorAll('.event-image img').forEach(img => {
+      img.addEventListener('click', function() {
+        // Get the original image source
+        const imgSrc = this.getAttribute('src');
+
+        // Set the modal image source
+        modalImg.setAttribute('src', imgSrc);
+
+        // Show the modal with animation
+        modal.classList.add('active');
+
+        // Prevent body scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Close modal when clicking the X button
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close modal when clicking outside the image
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close modal when pressing ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    function closeModal() {
+      modal.classList.remove('active');
+      // Restore body scrolling
+      document.body.style.overflow = '';
+    }
+
     setTimeout(() => {
-      // Initialize star layers with different properties and scroll speeds
       // Parameters: (id, count, maxSize, speedFactor, twinkleFactor, color, baseScrollSpeed, scrollRandom)
       initStars('starsLayer1', 70, 2.5, 0.1, 1, '#ffffff', 0.2, 0.5); // Large, fast-moving distant stars
       initStars('starsLayer2', 100, 1.5, 0.03, 0.08, '#b7c1e6', 0.1, 0.3); // Medium stars
       initStars('starsLayer3', 150, 1, 0.02, 0.05, '#657dff', 0.1, 0.1); // Small, slower nearby stars
-
-      // ScrollSmoother handles updating stars now
-      // window.addEventListener('scroll', updateStarsVisibility);
-
-      // Start animation loop
       animateStars();
-
-      // Initial update
       updateStarsVisibility();
     }, 100);
   });
@@ -175,14 +275,18 @@
     }
 
     const viewportHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
 
     Object.keys(starLayers).forEach(layerId => {
       const layer = starLayers[layerId];
       const { stars } = layer;
 
       stars.forEach(star => {
-        // Use individual star's scroll speed
-        const relY = star.y - (scrollY * star.scrollSpeed);
+        // Use individual star's scroll speed with boundary protection
+        // Ensure we never move stars beyond the reasonable bounds
+        const maxScroll = documentHeight - viewportHeight;
+        const clampedScrollY = Math.max(0, Math.min(scrollY, maxScroll));
+        const relY = star.y - (clampedScrollY * star.scrollSpeed);
         star.visible = relY >= -200 && relY <= viewportHeight + 200; // Expanded visible range
       });
     });
@@ -270,6 +374,14 @@
       scrollY = window.scrollY || window.pageYOffset;
     }
 
+    // Get document dimensions for proper boundary handling
+    const viewportHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const maxScroll = documentHeight - viewportHeight;
+
+    // Clamp scroll value to prevent stars from breaking at page boundaries
+    const clampedScrollY = Math.max(0, Math.min(scrollY, maxScroll));
+
     Object.keys(starLayers).forEach(layerId => {
       const layer = starLayers[layerId];
       const { canvas, ctx, stars, color } = layer;
@@ -280,7 +392,9 @@
       // Draw each star
       stars.forEach(star => {
         // Determine if star is in visible range using individual scroll speeds
-        const relativeY = star.y - (scrollY * star.scrollSpeed);
+        // Apply easing to scroll effect when near top/bottom boundaries
+        const scrollEffect = star.scrollSpeed * (1 - Math.pow(Math.min(clampedScrollY / viewportHeight, 1), 3) * 0.3);
+        const relativeY = star.y - (clampedScrollY * scrollEffect);
         const isVisible = relativeY >= -50 && relativeY <= canvas.height + 50;
 
         // Only process visible stars
@@ -378,13 +492,45 @@
   extendTimeline: true,
 });
 	const welcome = new SplitType("#welcome");
-	gsap.to('.char', {
+	// Create a timeline for the welcome text animation
+	const welcomeTl = gsap.timeline();
+
+	// Initialize welcome text animation
+
+
+	// Initial animation: characters flying in together
+	welcomeTl.to('.char', {
+        stagger: 0.05,
 		y: 0,
-		stagger: 0.02,
 		delay: 0.5,
 		duration: 0.6,
-		ease: "circ.out"
-	})
+		ease: "back.out(1.5)"
+	});
+
+	// Add a slight scale bounce to each character (all at once for uniformity)
+	welcomeTl.to('.char', {
+        stagger: 0.04,
+		scale: 1.1,
+		duration: 0.1,
+		ease: "power2.out"
+	}, "-=0.2");
+
+	// Return to normal scale (all at once for uniformity)
+	welcomeTl.to('.char', {
+        stagger: 0.04,
+		scale: 1,
+		duration: 0.1,
+		ease: "power2.in"
+	});
+
+	// Apply a continuous glow effect to the entire text
+	welcomeTl.to('#welcome', {
+		duration: 2,
+		textShadow: '0 0 12px rgba(101, 125, 255, 0.8), 0 0 20px rgba(101, 125, 255, 0.4)',
+		ease: "sine.inOut",
+		yoyo: true,
+		repeat: -1
+	});
 	  // Parallax is now handled directly in the star animation loop
 	gsap.to(".earth", {
 	  backgroundPositionY: "-=10000x",
@@ -410,8 +556,8 @@
 	});
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Ensure all dot-labels and dot-images are hidden before animation
-    gsap.set(document.querySelectorAll('.dot-label, .dot-image'), {
+    // Ensure all dot-labels and event images are hidden before animation
+    gsap.set(document.querySelectorAll('.dot-label, .event-image'), {
       autoAlpha: 0,
       y: -50
     });
@@ -507,28 +653,46 @@
             ease: "power2.out"
           }, "-=0.2");
       });
-      document.querySelectorAll('.dot-image').forEach(label => {
-        gsap.to(label, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.inOut",
+      document.querySelectorAll('.event-image').forEach(image => {
+        const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: label,
+            trigger: image,
             start: "center bottom",
             end: "center top-=150",
             toggleActions: "play reverse play reverse",
             markers: false
           }
         });
+
+        tl.set(image, {autoAlpha: 0, x: 70})
+          .to(image, {
+            autoAlpha: 1,
+            x: 0,
+            duration: 1,
+            ease: "power3.out"
+          })
+          .from(image.querySelector('img'), {
+            scale: 1.15,
+            filter: "brightness(0.8)",
+            duration: 1.5,
+            ease: "power2.out"
+          }, "-=0.6")
+          .to(image, {
+            boxShadow: "0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(101, 125, 255, 0.5)",
+            duration: 1.2
+          }, "-=1.2");
       });
-      // Initialize bottom labels to be visible on page load since we start at the bottom
+      // Initialize bottom labels and images to be visible on page load since we start at the bottom
       setTimeout(() => {
         const viewportHeight = window.innerHeight;
-        document.querySelectorAll('.dot-label').forEach(label => {
-          const bottom = parseFloat(label.style.bottom) || 0;
+        document.querySelectorAll('.dot-label, .event-image').forEach(element => {
+          const bottom = parseFloat(element.style.bottom) || 0;
           if (bottom <= 20) {
-            gsap.set(label, {opacity: 1, y: 0, visibility: 'visible'});
+            if (element.classList.contains('event-image')) {
+              gsap.set(element, {opacity: 1, x: 0, visibility: 'visible'});
+            } else {
+              gsap.set(element, {opacity: 1, y: 0, visibility: 'visible'});
+            }
           }
         });
       }, 500);
@@ -548,7 +712,7 @@
       top: document.documentElement.scrollTop - viewportHeight,
       behavior: 'smooth'
     });
-  }, 2000);
+  }, 4000);
     checkSmoother();
   });
 
