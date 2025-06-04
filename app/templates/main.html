@@ -40,7 +40,7 @@
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   border-bottom: 1.5px solid rgba(101,125,255,0.18);
 ">
-  Made by Bobby -<a href="https://docs.google.com/document/d/1SuCF-xfGshgw2lFP33lsDmW4ILQEO78pg5K3valyHGg/edit?usp=sharing" target="_blank" style="color:#8faaff;text-decoration:underline;font-weight:normal;font-size:1.2rem;letter-spacing:normal;margin-left:8px;">Works Cited</a>
+  Made by Bobby -<a href="https://docs.google.com/document/d/1SuCF-xfGshgw2lFP33lsDmW4ILQEO78pg5K3valyHGg/edit?usp=sharing" target="_blank" style="color:#8faaff;text-decoration:underline;font-weight:normal;font-size:1.2rem;letter-spacing:normal;margin-left:8px;">Works Cited</a> -<a href="https://github.com/bobz5460/historyfinalwebsite/" target="_blank" style="color:#8faaff;text-decoration:underline;font-weight:normal;font-size:1.2rem;letter-spacing:normal;margin-left:8px;">Source Code</a>
 </div>
 <div class="stars-container">
   <canvas id="starsLayer1" class="stars-canvas"></canvas>
@@ -932,13 +932,6 @@ The mission showed that living beings could survive launch and weightlessness, a
         setTimeout(checkSmoother, 100);
       }
     };
-        setTimeout(() => {
-    const viewportHeight = window.innerHeight;
-    window.scrollTo({
-      top: document.documentElement.scrollTop - viewportHeight,
-      behavior: 'smooth'
-    });
-  }, 4000);
     checkSmoother();
   });
 
